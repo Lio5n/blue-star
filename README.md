@@ -92,6 +92,7 @@ Generates cards with 2 fields based on heading and subheading blocks. Example ca
 
 **Front:**
 <div> <img src="./images/section-subsection-front.png" alt="Description" width="400"> </div>
+
 **Back:**
 <div> <img src="./images/section-subsection-back.png/" alt="Description" width="400"> </div>
 
@@ -101,6 +102,7 @@ Generates cards with 2 fields based on heading and the content block under the h
 
 **Front:**
 <div> <img src="./images/heading-paragraph-front.png/" alt="Description" width="400"> </div>
+
 **Back:**
 <div> <img src="./images/heading-paragraph-back.png/" alt="Description" width="400"> </div>
 
@@ -110,6 +112,7 @@ Generates cards with multiple fields based on each subheading block under a head
 
 **Front:**
 <div> <img src="./images/multi-subsection-front.png/" alt="Description" width="400"> </div>
+
 **Back:**
 <div> <img src="./images/multi-subsection-back.png/" alt="Description" width="400"> </div>
 
@@ -119,7 +122,8 @@ Generates cards with multiple fields based on each content block under a heading
 
 **Front:**
 <div> <img src="./images/multi-subparagraph-front.png/" alt="Description" width="400"> </div>
-**Back:***
+
+**Back:**
 <div> <img src="./images/multi-paragraph-back.png/" alt="Description" width="400"> </div>
 
 ### Custom delimiter
