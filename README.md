@@ -91,36 +91,36 @@ import {foo} from './example'
 Generates cards with 2 fields based on heading and subheading blocks. Example card:  
 
 **Front:**
-<div> <img src="./images/section-subsection-front.png" alt="Description" height="400"> </div>
+<div> <img src="./images/section-subsection-front.png" alt="Description" width="400"> </div>
 **Back:**
-<div> <img src="./images/section-subsection-back.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/section-subsection-back.png/" alt="Description" width="400"> </div>
 
 ### Heading :: Paragraph
 
 Generates cards with 2 fields based on heading and the content block under the heading. Example card:  
 
 **Front:**
-<div> <img src="./images/heading-paragraph-front.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/heading-paragraph-front.png/" alt="Description" width="400"> </div>
 **Back:**
-<div> <img src="./images/heading-paragraph-back.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/heading-paragraph-back.png/" alt="Description" width="400"> </div>
 
 ### Multi-Subsection
 
 Generates cards with multiple fields based on each subheading block under a heading. Example card:  
 
 **Front:**
-<div> <img src="./images/multi-subsection-front.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/multi-subsection-front.png/" alt="Description" width="400"> </div>
 **Back:**
-<div> <img src="./images/multi-subsection-back.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/multi-subsection-back.png/" alt="Description" width="400"> </div>
 
 ### Multi-Subparagraph
 
 Generates cards with multiple fields based on each content block under a heading. Example card:  
 
 **Front:**
-<div> <img src="./images/multi-subparagraph-front.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/multi-subparagraph-front.png/" alt="Description" width="400"> </div>
 **Back:***
-<div> <img src="./images/multi-paragraph-back.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/multi-paragraph-back.png/" alt="Description" width="400"> </div>
 
 ### Custom delimiter
 
@@ -139,9 +139,9 @@ Custom Delimiter Card Back
 ```
 
 **Front:**
-<div> <img src="./images/custom-delimiter-front.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/custom-delimiter-front.png/" alt="Description" width="400"> </div>
 **Back:**
-<div> <img src="./images/custom-delimiter-back.png/" alt="Description" height="400"> </div>
+<div> <img src="./images/custom-delimiter-back.png/" alt="Description" width="400"> </div>
 
 ### Regex
 
