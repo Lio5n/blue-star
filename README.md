@@ -186,6 +186,10 @@ parser: section-subsection
 * `field-separator` / `field-split` / `field`
 * `card-end`
 
+## Deck Tip
+
+You can specify Anki's multi-level decks using `::`, for example: `Deck::SubDeck`.
+
 ## Support and Feedback
 
 Encountered an issue or have a suggestion? Please open an issue on the [GitHub repository](https://github.com/Lio5n/blue-star). 

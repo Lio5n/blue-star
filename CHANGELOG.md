@@ -1,6 +1,8 @@
 # Changelog
 
-## [1.0.0] - Initial Release
+## [1.0.0] - 2024-06-01
+
+### Initial Release
 
 - Introducing Blue Star: An Obsidian plugin for effortless Anki flashcard creation!
 - **Core Features:**
