@@ -90,45 +90,58 @@ import {foo} from './example'
 
 Generates cards with 2 fields based on heading and subheading blocks. Example card:  
 
-**Front:** <img src="./images/section-subsection-paragraph-front.png">
-**Back:** <img src="./images/section-subsection-back.png/">
+**Front:**
+<img src="./images/section-subsection-front.png" alt="Description" height="400">
+**Back:**
+<img src="./images/section-subsection-back.png/" alt="Description" height="400">
 
 ### Heading :: Paragraph
 
 Generates cards with 2 fields based on heading and the content block under the heading. Example card:  
 
-**Front:** <img src="./images/heading-paragraph-front.png/">
-**Back:** <img src="./images/heading-paragraph-back.png/">
+**Front:**
+<img src="./images/heading-paragraph-front.png/" alt="Description" height="400">
+**Back:**
+<img src="./images/heading-paragraph-back.png/" alt="Description" height="400">
 
 ### Multi-Subsection
 
 Generates cards with multiple fields based on each subheading block under a heading. Example card:  
 
-**Front:** <img src="./images/multi-subsection-front.png/">
-**Back:** <img src="./images/multi-subsection-back.png/">
+**Front:**
+<img src="./images/multi-subsection-front.png/" alt="Description" height="400">
+**Back:**
+<img src="./images/multi-subsection-back.png/" alt="Description" height="400">
 
 ### Multi-Subparagraph
 
 Generates cards with multiple fields based on each content block under a heading. Example card:  
 
-**Front:** <img src="./images/multi-subparagraph-front.png/">
-**Back:*** <img src="./images/multi-paragraph-back.png/">
+**Front:**
+<img src="./images/multi-subparagraph-front.png/" alt="Description" height="400">
+**Back:***
+<img src="./images/multi-paragraph-back.png/" alt="Description" height="400">
 
 ### Custom delimiter
 
 Generates cards based on custom start, field separator, and end delimiters. 
 
 **Note**:
+
 ```
 # Example
+
 <!-- card start -->
 Custom Delimiter Card Front
 <!-- field separator -->
 Custom Delimiter Card Back
 <!-- card end -->
 ```
-**Front:** <img src="./images/custom-delimiter-front.png/">
-**Back:** <img src="./images/custom-delimiter-back.png/">
+
+**Front:**
+<img src="./images/custom-delimiter-front.png/" alt="Description" height="400">
+**Back:**
+<img src="./images/custom-delimiter-back.png/" alt="Description" height="400">
 
 ### Regex
 
