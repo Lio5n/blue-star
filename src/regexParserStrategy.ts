@@ -1,11 +1,17 @@
 import { ParserStrategy } from './parser';
+import { showNotice } from './ui';
 
 export class RegexParserStrategy implements ParserStrategy {
     private regex: RegExp;
     private allowSingleField: boolean;
 
     constructor(pattern: string, flags: string, allowSingleField: boolean) {
-        this.regex = new RegExp(pattern, flags || 'g');
+        try {
+            this.regex = new RegExp(pattern, flags || 'g');
+        } catch (error) {
+            showNotice(error);
+            throw new Error(error);
+        }
         this.allowSingleField = allowSingleField;
     }
 

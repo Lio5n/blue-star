@@ -65,13 +65,13 @@ export default class BlueStar extends Plugin {
         if (!fileContent || !activeFile) return;
 
         const fileConfig = Parser.extractConfig(fileContent) || {};
-        const config = { ...this.getDefaultConfig(), ...fileConfig }; // 合并配置
+        const config = { ...this.getDefaultConfig(), ...fileConfig };
 
         let parser = new Parser(config.parser.toLowerCase(), config);
 
         const parsedContent = parser.parse(fileContent, config);
 
-        console.log('Parsed content:', parsedContent); // 添加日志
+        console.log('Parsed content:', parsedContent);
 
         if (parsedContent.length === 0) {
             showNotice(`No content matched the pattern in file "${activeFile.name}".`);

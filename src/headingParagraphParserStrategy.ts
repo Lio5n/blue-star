@@ -6,9 +6,11 @@ export class HeadingParagraphParserStrategy implements ParserStrategy {
     private allowSingleField: boolean;
 
     constructor(headingLevel: number, allowSingleField: boolean) {
+        /*
         if (headingLevel < 1 || headingLevel > 5) {
             throw new Error('Heading level must be between 1 and 5');
         }
+        */
         this.headingLevel = headingLevel;
         this.allowSingleField = allowSingleField;
     }

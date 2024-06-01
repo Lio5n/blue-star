@@ -5,6 +5,7 @@ import { MultiSubparagraphParserStrategy } from './multiSubparagraphParserStrate
 import { MultiSubsectionParserStrategy } from './multiSubsectionParserStrategy';
 import { RegexParserStrategy } from './regexParserStrategy';
 import { SectionSubSectionParserStrategy } from './sectionSubsectionParserStrategy';
+import { showNotice } from './ui';
 
 export interface ParserStrategy {
     parse(content: string, config: any): any[];
@@ -32,41 +33,48 @@ export class Parser {
 
         if (parserType === 'regex') {
             if (!config.regex) {
+                showNotice('Regex pattern is required for RegexParserStrategy');
                 throw new Error('Regex pattern is required for RegexParserStrategy');
             }
             this.strategy = new RegexParserStrategy(config.regex, config.flags || 'g', config.single);
 
         } else if (parserType === 'section-subsection') {
-            if (config.heading === undefined) {
+            if (config.heading === undefined || !config.heading || config.heading<=0) {
+                showNotice('Heading level is required for SectionSubsectioinParserStrategy');
                 throw new Error('Heading level is required for SectionSubsectioinParserStrategy');
             }
             this.strategy = new SectionSubSectionParserStrategy(config.heading, config.single);
 
         } else if (parserType === 'heading-paragraph') {
-            if (config.heading === undefined) {
+            if (config.heading === undefined || !config.heading || config.heading<=0) {
+                showNotice('Heading level is required for HeadingParagraphParserStrategy');
                 throw new Error('Heading level is required for HeadingParagraphParserStrategy');
             }
             this.strategy = new HeadingParagraphParserStrategy(config.heading, config.single);
 
         } else if (parserType === 'multi-subsection') {
-            if (config.heading === undefined) {
+            if (config.heading === undefined || !config.heading || config.heading<=0) {
+                showNotice('Heading level is required for MultiSubsectionParserStrategy');
                 throw new Error('Heading level is required for MultiSubsectionParserStrategy');
             }
             this.strategy = new MultiSubsectionParserStrategy(config.heading, config.single);
 
         } else if (parserType === 'multi-subparagraph') {
-            if (config.heading === undefined) {
+            if (config.heading === undefined || !config.heading || config.heading<=0) {
+                showNotice('Heading level is required for MultiSubparagraphParserStrategy');
                 throw new Error('Heading level is required for MultiSubparagraphParserStrategy');
             }
             this.strategy = new MultiSubparagraphParserStrategy(config.heading, config.single);
 
         } else if (parserType === 'custom-delimiter') {
-            if (config.start === undefined || config.separator === undefined || config.end === undefined) {
+            if (!config.start.trim() || !config.separator.trim() || !config.end.trim()) {
+                showNotice('Custom delimiter is required for HeadingParserStrategy');
                 throw new Error('Custom delimiter is required for HeadingParserStrategy');
             }
             this.strategy = new CustomDelimitersParserStrategy(config.start, config.separator, config.end, config.single);
 
         } else {
+            showNotice(`Unknown parser type: ${parserType}`);
             throw new Error(`Unknown parser type: ${parserType}`);
         }
     }

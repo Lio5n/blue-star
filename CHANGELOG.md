@@ -24,4 +24,11 @@
 
 ### Added
 
-- Add usage instructions
+- Add usage instructions.
+
+
+## [1.0.2] - 2024-06-02
+
+### Added
+
+- Added some notices.
