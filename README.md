@@ -144,6 +144,7 @@ Custom Delimiter Card Back
 
 **Front:**
 <div> <img src="./images/custom-delimiter-front.png/" alt="Description" width="400"> </div>
+
 **Back:**
 <div> <img src="./images/custom-delimiter-back.png/" alt="Description" width="400"> </div>
 
