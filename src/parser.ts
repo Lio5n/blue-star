@@ -105,9 +105,11 @@ export class Parser {
                 if (lowerKey === 'heading-level') config.heading = parseInt(value, 10);
                 if (lowerKey === 'update') config.update = this.parseBoolean(value);
                 if (lowerKey === 'upsert') config.update = this.parseBoolean(value);
-                if (lowerKey === 'single') config.update = this.parseBoolean(value);
-                if (lowerKey === 'single-line') config.update = this.parseBoolean(value);
+                if (lowerKey === 'single') config.single = this.parseBoolean(value);
+                if (lowerKey === 'single-field') config.single = this.parseBoolean(value);
                 if (lowerKey === 'card-start') config.start = value;
+                if (lowerKey === 'field') config.separator = value;
+                if (lowerKey === 'field-split') config.separator = value;
                 if (lowerKey === 'field-separator') config.separator = value;
                 if (lowerKey === 'card-end') config.end = value;
             }

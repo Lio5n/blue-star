@@ -1,96 +1,173 @@
-# Obsidian Sample Plugin
+# Blue Star: Effortlessly Transform Your Obsidian Notes into Anki Flashcards
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Blue Star is an Obsidian plugin that simplifies the process of creating Anki flashcards from your notes. With a variety of built-in parsing modes and customization options, Blue Star empowers you to efficiently turn your knowledge into memorable study material.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+* **Multiple Parsing Modes:** Choose from pre-defined modes based on headings, sections, or custom delimiters. Craft powerful flashcards using regular expressions for advanced control.
+* **Directory and Tag Filtering:** Generate flashcards from specific directories or files tagged with particular keywords, enabling focused learning.
+* **Granular Control:**  Decide whether to add new cards only or update existing ones in Anki. Configure default decks, models, and tags for seamless workflow integration.
+* **Document-Level Settings:** Fine-tune card creation behavior within individual notes. Override default settings for ultimate flexibility.
+* **User-Friendly Interface:**  A dedicated ribbon icon and command palette command provide quick access to card generation.
+* **Intuitive Setup:** Clear instructions guide you through the initial AnkiConnect configuration.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+## Installation
 
-## First time developing plugins?
+1. In Obsidian, go to `Settings` -> `Community plugins`.
+2. Click `Browse` and search for "Blue Star".
+3. Click `Install` and then `Enable` to activate the plugin.
 
-Quick starting guide for new plugin devs:
+## Getting Started
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+### 1. Install AnkiConnect
 
-## Releasing new releases
+Blue Star requires the AnkiConnect plugin for communication with Anki. 
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+* Search for AnkiConnect (code: 2055492159) in Anki's Add-ons menu.
+* After installation, restart Anki.
+* **Optional but Recommended:** Install a Markdown plugin in Anki (e.g., "Markdown and KaTeX", code: 1786114227) for enhanced card display.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
-
-## Adding your plugin to the community plugin list
-
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-## How to use
-
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
+ If the connection fails, check the AnkiConnect configuration as follows:
+```
 {
-    "fundingUrl": "https://buymeacoffee.com"
+    "apiKey": null,
+    "apiLogPath": null,
+    "ignoreOriginList": [],
+    "webBindAddress": "127.0.0.1",
+    "webBindPort": 8765,
+    "webCorsOrigin": "http://localhost",
+    "webCorsOriginList": [
+        "http://localhost",
+        "app://obsidian.md"
+    ]
 }
 ```
 
-If you have multiple URLs, you can also do:
+### 2. Configure Blue Star
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
+* Access Blue Star's settings in Obsidian's plugin settings.
+* Configure your preferred parsing mode, default Anki settings, and other options.
+
+### 3. Generate Flashcards
+
+1. Open a note or navigate to a directory containing the content you want to convert.
+2. Click the Blue Star icon in the ribbon or use the command `Blue Star: Create Anki cards`.
+3. Monitor the progress notifications in Obsidian's status bar.
+
+## Parsing Modes
+
+Blue Star offers the following parsing modes:
+
+* **Section :: Subsection:** Creates two-field cards from headings and their immediate subheadings.
+* **Heading :: Paragraph:**  Generates two-field cards from headings and their corresponding content blocks.
+* **Multi-Subsection:**  Produces multi-field cards by extracting content from all subheadings under a main heading.
+* **Multi-Subparagraph:** Creates multi-field cards by dividing content under a heading into separate fields based on paragraphs.
+* **Regex:**  Empowers you to define custom card and field extraction rules using regular expressions.
+* **Custom Delimiter:**  Allows you to specify unique start, end, and field separator strings for card generation.
+
+Below is an example text demonstrating the built-in generation modes (The setting for heading level is 2):
+
+``````
+# Example
+
+## export and import
+Named Export and Import
+
+### export
+- Named Export
+```js
+export function foo()...
 ```
 
-## API Documentation
+### import
+- Named Import
+```js
+import {foo} from './example'
+```
+``````
 
-See https://github.com/obsidianmd/obsidian-api
+### Section :: Subsection
+
+Generates cards with 2 fields based on heading and subheading blocks. Example card:  
+
+**Front:** ![[./images/section-subsection-paragraph-front.png]]
+**Back:** ![[./images/section-subsection-back.png]]
+
+### Heading :: Paragraph
+
+Generates cards with 2 fields based on heading and the content block under the heading. Example card:  
+
+**Front:** ![[./images/heading-paragraph-front.png]]
+**Back:** ![[./images/heading-paragraph-back.png]]
+
+### Multi-Subsection
+
+Generates cards with multiple fields based on each subheading block under a heading. Example card:  
+
+**Front:** ![[./images/multi-subsection-front.png]]
+**Back:** ![[./images/multi-subsection-back.png]]
+
+### Multi-Subparagraph
+
+Generates cards with multiple fields based on each content block under a heading. Example card:  
+
+**Front:** ![[./images/multi-subparagraph-front.png]]
+**Back:*** ![[./images/multi-paragraph-back.png]]
+
+### Custom delimiter
+
+Generates cards based on custom start, field separator, and end delimiters. 
+
+**Note**:
+```
+# Example
+<!-- card start -->
+Custom Delimiter Card Front
+<!-- field separator -->
+Custom Delimiter Card Back
+<!-- card end -->
+```
+**Front:**![[./images/custom-delimiter-front.png]]
+**Back:**![[./images/custom-delimiter-back.png]]
+
+### Regex
+
+Generates cards based on regular expressions. If you create a useful regex, please share it on the plugin's GitHub page. Many thanks!
+
+If you are not familiar with writing regular expressions (don't worry, neither am I), the Obsidian_2_Anki plugin provides some useful regex patterns. You can find them on its introduction page, which also includes usage examples. Many thanks to Obsidian_2_Anki.
+
+When using regex patterns from Obsidian_2_Anki with this plugin, set the regex flags to `gm`. Obsidian_2_Anki regex introduction page: [Regex](https://github.com/ObsidianToAnki/Obsidian_to_Anki/wiki/Regex)
+
+## Document-Level Configuration
+
+You can configure Anki card generation for a specific document. Document-level settings override the default settings. You don't need to configure all options; only the ones specified in the document block will override the defaults. 
+
+Customize card creation for individual notes using code blocks with the following format:
+
+``````
+```anki
+deck: YourDeckName
+model: YourModelName
+tag: YourTagName
+parser: section-subsection 
+```
+``````
+
+**Available options:**
+
+* `deck` / `anki-deck`
+* `model` / `anki-model`
+* `tag` / `anki-tag`
+* `parser` / `match` / `match-model` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-suparagraph`, `regex`, `custom-delimiter`)
+* `regex`
+* `flags` / `regex-flag` / `flag` / `regex-flags`
+* `heading` / `heading-level`
+* `update` / `upsert` (Values: `true` or `false`)
+* `single` / `single-field` (Values: `true` or `false`)
+* `card-start`
+* `field-separator` / `field-split` / `field`
+* `card-end`
+
+## Support and Feedback
+
+Encountered an issue or have a suggestion? Please open an issue on the [GitHub repository](https://github.com/Lio5n/blue-star). 

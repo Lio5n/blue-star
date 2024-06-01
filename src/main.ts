@@ -15,15 +15,15 @@ export default class BlueStar extends Plugin {
         
         await this.loadSettings();
 
-        this.addRibbonIcon('star', 'Create Anki Cards', async () => {
-            await this.createAnkiCardsFromCurrentFile();
+        this.addRibbonIcon('star', 'Create Anki cards', async () => {
+            await this.createAnkiCardsFromFile();
         });
 
         this.addCommand({
             id: 'create-anki-cards',
-            name: 'Create Anki Cards from Current File',
+            name: 'Create Anki cards',
             callback: async () => {
-                await this.createAnkiCardsFromCurrentFile();
+                await this.createAnkiCardsFromFile();
             }
         });
 
@@ -51,15 +51,15 @@ export default class BlueStar extends Plugin {
         await this.saveData(this.settings);
     }
 
-    async createAnkiCardsFromCurrentFile() {
+    async createAnkiCardsFromFile() {
         if (this.settings.fileScope === 'currentFile') {
-            await this.createAnkiCardsFromFile();
+            await this.createAnkiCardsFromCurrentFile();
         } else if (this.settings.fileScope === 'directory') {
             await this.createAnkiCardsFromDirectory();
         }
     }
 
-    async createAnkiCardsFromFile() {
+    async createAnkiCardsFromCurrentFile() {
         const fileContent = await readCurrentFileContent(this.app);
         const activeFile = this.app.workspace.getActiveFile();
         if (!fileContent || !activeFile) return;
