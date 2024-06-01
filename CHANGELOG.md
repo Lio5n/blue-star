@@ -19,3 +19,9 @@
 - **Support and Feedback:**
     - Link to GitHub repository for issue reporting and suggestions.
 
+
+## [1.0.1] - 2024-06-02
+
+### Added
+
+- Add usage instructions

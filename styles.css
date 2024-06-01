@@ -14,3 +14,9 @@ If your plugin does not need CSS, delete this file.
 .blue-star-regex-input-alias {
     width: 350px;
 }
+
+.blue-star-usage-instructions {
+    font-size: 0.8em;
+    color: rgb(174, 174, 174);
+    margin-top: -12px;
+}

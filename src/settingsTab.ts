@@ -281,5 +281,12 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     }));
         }
+
+        new Setting(containerEl)
+            .setName('Usage Instructions')
+            .setDesc('1. You can specify Anki\'s multi-level decks using ::, for example: Deck::SubDeck');
+        const usageHint = containerEl.createEl('p', { text: '2. For usage instructions, please refer to: ' });
+        usageHint.createEl('a', { href: 'https://github.com/Lio5n/blue-star', text: 'https://github.com/Lio5n/blue-star' });
+        usageHint.addClass('blue-star-usage-instructions');
     }
 }
