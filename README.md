@@ -90,29 +90,29 @@ import {foo} from './example'
 
 Generates cards with 2 fields based on heading and subheading blocks. Example card:  
 
-**Front:** ![[./images/section-subsection-paragraph-front.png]]
-**Back:** ![[./images/section-subsection-back.png]]
+**Front:** <img src="./images/section-subsection-paragraph-front.png">
+**Back:** <img src="./images/section-subsection-back.png/">
 
 ### Heading :: Paragraph
 
 Generates cards with 2 fields based on heading and the content block under the heading. Example card:  
 
-**Front:** ![[./images/heading-paragraph-front.png]]
-**Back:** ![[./images/heading-paragraph-back.png]]
+**Front:** <img src="./images/heading-paragraph-front.png/">
+**Back:** <img src="./images/heading-paragraph-back.png/">
 
 ### Multi-Subsection
 
 Generates cards with multiple fields based on each subheading block under a heading. Example card:  
 
-**Front:** ![[./images/multi-subsection-front.png]]
-**Back:** ![[./images/multi-subsection-back.png]]
+**Front:** <img src="./images/multi-subsection-front.png/">
+**Back:** <img src="./images/multi-subsection-back.png/">
 
 ### Multi-Subparagraph
 
 Generates cards with multiple fields based on each content block under a heading. Example card:  
 
-**Front:** ![[./images/multi-subparagraph-front.png]]
-**Back:*** ![[./images/multi-paragraph-back.png]]
+**Front:** <img src="./images/multi-subparagraph-front.png/">
+**Back:*** <img src="./images/multi-paragraph-back.png/">
 
 ### Custom delimiter
 
@@ -127,8 +127,8 @@ Custom Delimiter Card Front
 Custom Delimiter Card Back
 <!-- card end -->
 ```
-**Front:**![[./images/custom-delimiter-front.png]]
-**Back:**![[./images/custom-delimiter-back.png]]
+**Front:** <img src="./images/custom-delimiter-front.png/">
+**Back:** <img src="./images/custom-delimiter-back.png/">
 
 ### Regex
 
