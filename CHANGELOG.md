@@ -68,3 +68,10 @@
 
 - Add start execution notice.
 - Add exclude file tag.
+
+
+## [1.0.8] - 2024-06-03
+
+### Added
+
+- Add logic to prevent duplicate execution.

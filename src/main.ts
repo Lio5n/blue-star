@@ -1,29 +1,34 @@
-import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, TFile, TFolder, setIcon } from 'obsidian';
 import { BlueStarSettings, DEFAULT_SETTINGS } from './config';
 import { BlueStarSettingTab } from './settingsTab';
 import { readCurrentFileContent } from './fileReader';
 import { Parser } from './parser';
 import { createAnkiCards, checkAnkiModelExists } from './ankiConnector';
 import { InputPromptModal, showNotice } from './ui';
-import { start } from 'repl';
 
 export default class BlueStar extends Plugin {
     settings: BlueStarSettings;
+    ribbonIconEl: HTMLElement;
+    isProcessing: boolean = false;
 
     async onload() {
         console.log('Loading Blue Star plugin');
         
         await this.loadSettings();
 
-        this.addRibbonIcon('star', 'Create Anki cards', async () => {
-            await this.createAnkiCardsFromFile();
+        this.ribbonIconEl = this.addRibbonIcon('star', 'Create Anki cards', async () => {
+            if (!this.isProcessing) {
+                await this.createAnkiCardsFromFile();
+            }
         });
 
         this.addCommand({
             id: 'create-anki-cards',
             name: 'Create Anki cards',
             callback: async () => {
-                await this.createAnkiCardsFromFile();
+                if (!this.isProcessing) {
+                    await this.createAnkiCardsFromFile();
+                }
             }
         });
 
@@ -52,13 +57,19 @@ export default class BlueStar extends Plugin {
     }
 
     async createAnkiCardsFromFile() {
+        this.isProcessing = true;
+        this.toggleRibbonIcon('loading');
+
         if (this.settings.fileScope === 'currentFile') {
-            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.')
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
             await this.createAnkiCardsFromCurrentFile();
         } else if (this.settings.fileScope === 'directory') {
-            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.')
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
             await this.createAnkiCardsFromDirectory();
         }
+
+        this.toggleRibbonIcon('done');
+        this.isProcessing = false;
     }
 
     async createAnkiCardsFromCurrentFile() {
@@ -94,7 +105,7 @@ export default class BlueStar extends Plugin {
             new InputPromptModal(this.app, 'Directory path must be specified.', () => {}).open();
             return;
         } else if (folderPath.trim() === '/') {
-            showNotice('It is not recommended to scan the entire vault, so the directory should not be set to "/".')
+            showNotice('It is not recommended to scan the entire vault, so the directory should not be set to "/".');
             new InputPromptModal(this.app, 'It is not recommended to scan the entire vault, so the directory should not be set to "/".', () => {}).open();
             return;
         }
@@ -187,6 +198,14 @@ export default class BlueStar extends Plugin {
             separator: this.settings.customDelimiters.fieldSeparator,
             end: this.settings.customDelimiters.cardEnd,
             ignore: false,
+        }
+    }
+
+    private toggleRibbonIcon(state: 'loading' | 'done') {
+        if (state === 'loading') {
+            setIcon(this.ribbonIconEl, 'star-half');
+        } else {
+            setIcon(this.ribbonIconEl, 'star');
         }
     }
 }
