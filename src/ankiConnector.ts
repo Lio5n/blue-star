@@ -48,7 +48,6 @@ async function addAnkiNotes(notes: any[], fileName: string) {
     const addedCount = response.filter((id: number) => id !== null).length;
     const skippedCount = response.filter((id: number) => id === null).length;
 
-    console.log(response);
     showNotice(`Added ${addedCount} Anki cards and\nSkipped ${skippedCount} Anki cards\nfrom file "${fileName}".`);
 }
 

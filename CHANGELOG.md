@@ -32,3 +32,10 @@
 ### Added
 
 - Added some notices.
+
+
+## [1.0.3] - 2024-06-02
+
+### Deleted
+
+- Deleted some logs.

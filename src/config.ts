@@ -27,7 +27,7 @@ export interface BlueStarSettings {
 
 export const DEFAULT_SETTINGS: BlueStarSettings = {
     updateExisting: false,
-    allowSingleField: false,
+    allowSingleField: true,
     fileScope: 'currentFile',
     directoryPath: 'Anki',
     fileTag: '',
@@ -74,8 +74,20 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
             enabled: false
         },
         {
-            alias: 'All headings and paragraphs',
+            alias: 'All headings and paragraph, starting from h1',
             pattern: '^#+(.+)\n*((?:\n(?:^[^\n#].{0,2}$|^[^\n#].{3}(?<!<!--).*))+)',
+            flags: 'gm',
+            enabled: false
+        },
+        {
+            alias: 'All headings and paragraph, starting from h2',
+            pattern: '^#{2,}(.+)\n*((?:\n(?:^[^\n#].{0,2}$|^[^\n#].{3}(?<!<!--).*))+)',
+            flags: 'gm',
+            enabled: false
+        },
+        {
+            alias: 'All headings and paragraph, starting from h3',
+            pattern: '^#{3,}(.+)\n*((?:\n(?:^[^\n#].{0,2}$|^[^\n#].{3}(?<!<!--).*))+)',
             flags: 'gm',
             enabled: false
         }
