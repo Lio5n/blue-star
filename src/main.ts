@@ -19,6 +19,8 @@ export default class BlueStar extends Plugin {
         this.ribbonIconEl = this.addRibbonIcon('star', 'Create Anki cards', async () => {
             if (!this.isProcessing) {
                 await this.createAnkiCardsFromFile();
+            } else {
+                showNotice('Generating Anki flashcards...   ');
             }
         });
 
@@ -28,6 +30,8 @@ export default class BlueStar extends Plugin {
             callback: async () => {
                 if (!this.isProcessing) {
                     await this.createAnkiCardsFromFile();
+                } else {
+                    showNotice('Generating Anki flashcards...   ');
                 }
             }
         });
