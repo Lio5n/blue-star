@@ -29,7 +29,6 @@ export class SectionSubSectionParserStrategy implements ParserStrategy {
             const trimmedLine = line.trimEnd();
             const lineType = lineTypeChecker(line.trim())
 
-            console.log(line)
             if (lineType.type=='heading') {
                 let headingLevel = lineType.headingLevel ? lineType.headingLevel : 0;
 

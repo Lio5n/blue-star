@@ -46,3 +46,10 @@
 ### Added
 
 - Add text description.
+
+
+## [1.0.5] - 2024-06-02
+
+### Deleted
+
+- Remove unnecessary logs during testing.
