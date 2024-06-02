@@ -99,8 +99,12 @@ export class Parser {
                 if (lowerKey === 'anki-deck') config.deck = value;
                 if (lowerKey === 'model') config.model = value;
                 if (lowerKey === 'anki-model') config.model = value;
+                if (lowerKey === 'note-type') config.model = value;
+                if (lowerKey === 'anki-note-type') config.model = value;
                 if (lowerKey === 'tag') config.tag = value;
                 if (lowerKey === 'anki-tag') config.tag = value;
+                if (lowerKey === 'card-tag') config.tag = value;
+                if (lowerKey === 'anki-card-tag') config.tag = value;
                 if (lowerKey === 'parser') config.parser = value;
                 if (lowerKey === 'match') config.parser = value;
                 if (lowerKey === 'match-model') config.parser = value;

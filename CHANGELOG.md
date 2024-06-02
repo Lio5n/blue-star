@@ -39,3 +39,10 @@
 ### Deleted
 
 - Deleted some logs.
+
+
+## [1.0.4] - 2024-06-02
+
+### Added
+
+- Add text description.

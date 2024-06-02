@@ -85,8 +85,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('Anki model')
-            .setDesc('The default model to use for cards.')
+            .setName('Anki model (note type)')
+            .setDesc('The default model (note type) to use for cards.')
             .addText(text => text
                 .setPlaceholder('Basic')
                 .setValue(this.plugin.settings.ankiModel)
