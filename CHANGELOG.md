@@ -53,3 +53,10 @@
 ### Deleted
 
 - Remove unnecessary logs during testing.
+
+
+## [1.0.6] - 2024-06-02
+
+### Added
+
+- Add document-level configuration command

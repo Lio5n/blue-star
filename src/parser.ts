@@ -106,8 +106,9 @@ export class Parser {
                 if (lowerKey === 'card-tag') config.tag = value;
                 if (lowerKey === 'anki-card-tag') config.tag = value;
                 if (lowerKey === 'parser') config.parser = value;
+                if (lowerKey === 'parser-mode') config.parser = value;
                 if (lowerKey === 'match') config.parser = value;
-                if (lowerKey === 'match-model') config.parser = value;
+                if (lowerKey === 'match-mode') config.parser = value;
                 if (lowerKey === 'regex') config.regex = value;
                 if (lowerKey === 'flags') config.flags = value;
                 if (lowerKey === 'regex-flags') config.flags = value;

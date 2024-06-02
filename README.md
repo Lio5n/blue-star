@@ -176,7 +176,7 @@ parser: section-subsection
 * `deck` / `anki-deck`
 * `model` / `anki-model` / `note-type` / `anki-note-type`
 * `tag` / `anki-tag` / `card-tag` / `anki-card-tag`
-* `parser` / `match` / `match-model` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-suparagraph`, `regex`, `custom-delimiter`)
+* `parser` / `parser-mode` / `match` / `match-mode` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-suparagraph`, `regex`, `custom-delimiter`)
 * `regex`
 * `flags` / `regex-flag` / `flag` / `regex-flags`
 * `heading` / `heading-level`
