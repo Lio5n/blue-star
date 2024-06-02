@@ -185,6 +185,7 @@ parser: section-subsection
 * `card-start`
 * `field-separator` / `field-split` / `field`
 * `card-end`
+* `ignore` (Values: `true` or `false`)
 
 ## Deck Tip
 

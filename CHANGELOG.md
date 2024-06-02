@@ -60,3 +60,11 @@
 ### Added
 
 - Add document-level configuration command
+
+
+## [1.0.7] - 2024-06-03
+
+### Added
+
+- Add start execution notice.
+- Add exclude file tag.

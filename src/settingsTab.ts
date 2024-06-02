@@ -42,13 +42,24 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     }));
 
             new Setting(containerEl)
-                .setName('File tag')
-                .setDesc('Specify the tag to filter files in the directory.')
+                .setName('Include file tag')
+                .setDesc('Specify the tag for files that need to be included in the specified directory.')
                 .addText(text => text
                     .setPlaceholder('anki')
-                    .setValue(this.plugin.settings.fileTag)
+                    .setValue(this.plugin.settings.includeFileTag)
                     .onChange(async (value) => {
-                        this.plugin.settings.fileTag = value;
+                        this.plugin.settings.includeFileTag = value;
+                        await this.plugin.saveSettings();
+                    }));
+
+            new Setting(containerEl)
+                .setName('Exclude file tag')
+                .setDesc('Specify the tag for files that need to be excluded in the specified directory.')
+                .addText(text => text
+                    .setPlaceholder('anki-ignore')
+                    .setValue(this.plugin.settings.excludeFileTag)
+                    .onChange(async (value) => {
+                        this.plugin.settings.excludeFileTag = value;
                         await this.plugin.saveSettings();
                     }));
         }

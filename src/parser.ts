@@ -24,6 +24,7 @@ export interface AnkiConfig {
     start: string;
     separator: string;
     end: string;
+    ignore: boolean;
 }
 
 export class Parser {
@@ -125,6 +126,7 @@ export class Parser {
                 if (lowerKey === 'field-split') config.separator = value;
                 if (lowerKey === 'field-separator') config.separator = value;
                 if (lowerKey === 'card-end') config.end = value;
+                if (lowerKey === 'ignore') config.ignore = this.parseBoolean(value);
             }
         }
 

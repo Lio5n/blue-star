@@ -10,7 +10,8 @@ export interface BlueStarSettings {
     allowSingleField: boolean;
     fileScope: 'currentFile' | 'directory';
     directoryPath: string;
-    fileTag: string;
+    includeFileTag: string;
+    excludeFileTag: string;
     ankiDeck: string;
     ankiModel: string;
     ankiTag: string;
@@ -30,7 +31,8 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
     allowSingleField: true,
     fileScope: 'currentFile',
     directoryPath: 'Anki',
-    fileTag: '',
+    includeFileTag: '',
+    excludeFileTag: '',
     ankiDeck: 'Default',
     ankiModel: 'Basic',
     ankiTag: 'blue-star',

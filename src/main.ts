@@ -53,8 +53,10 @@ export default class BlueStar extends Plugin {
 
     async createAnkiCardsFromFile() {
         if (this.settings.fileScope === 'currentFile') {
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.')
             await this.createAnkiCardsFromCurrentFile();
         } else if (this.settings.fileScope === 'directory') {
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.')
             await this.createAnkiCardsFromDirectory();
         }
     }
@@ -81,7 +83,7 @@ export default class BlueStar extends Plugin {
         try {
             await createAnkiCards(parsedContent, { ...config, updateExisting: config.update }, activeFile.name);
         } catch (error) {
-            showNotice(`Error creating Anki cards from file "${activeFile.name}": ${error.message}`);
+            showNotice(`Error: ${error.message}\n\nWhen creating Anki cards from file "${activeFile.name}".`);
         }
     }
 
@@ -109,9 +111,14 @@ export default class BlueStar extends Plugin {
         let processedFiles = 0;
         let skippedFiles = 0;
 
-        let tag = this.settings.fileTag.trim();
-        if (tag.startsWith('#')) {
-            tag = tag.slice(1);
+        let includeTag = this.settings.includeFileTag.trim();
+        if (includeTag.startsWith('#')) {
+            includeTag = includeTag.slice(1);
+        }
+
+        let excludedTag = this.settings.excludeFileTag.trim();
+        if (excludedTag.startsWith('#')) {
+            excludedTag = excludedTag.slice(1);
         }
 
         for (const file of files) {
@@ -120,12 +127,20 @@ export default class BlueStar extends Plugin {
             const frontMatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
             const tags = frontMatter?.tags || [];
 
-            if (tag && !tags.includes(tag)) {
+            if (includeTag && !tags.includes(includeTag)) {
+                continue;
+            }
+
+            if (excludedTag && tags.includes(excludedTag)) {
                 continue;
             }
 
             const fileConfig = Parser.extractConfig(fileContent) || {};
             const config = { ...this.getDefaultConfig(), ...fileConfig };
+
+            if (config.ignore) {
+                continue;
+            }
 
             let parser = new Parser(config.parser.toLowerCase(), config);
             const parsedContent = parser.parse(fileContent, config);
@@ -171,6 +186,7 @@ export default class BlueStar extends Plugin {
             start: this.settings.customDelimiters.cardStart,
             separator: this.settings.customDelimiters.fieldSeparator,
             end: this.settings.customDelimiters.cardEnd,
+            ignore: false,
         }
     }
 }

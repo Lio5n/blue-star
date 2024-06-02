@@ -9,7 +9,6 @@ export async function createAnkiCards(parsedContent: any[], settings: AnkiConfig
     const modelExists = await checkAnkiModelExists(settings.model);
     if (!modelExists) {
         showNotice(`Anki model "${settings.model}" does not exist.`);
-        // new InputPromptModal(this.app, `Anki model "${settings.model}" does not exist.`, () => {}).open();
         return;
     }
 
