@@ -64,12 +64,17 @@ export default class BlueStar extends Plugin {
         this.isProcessing = true;
         this.toggleRibbonIcon('loading');
 
-        if (this.settings.fileScope === 'currentFile') {
-            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
-            await this.createAnkiCardsFromCurrentFile();
-        } else if (this.settings.fileScope === 'directory') {
-            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
-            await this.createAnkiCardsFromDirectory();
+        try {
+            if (this.settings.fileScope === 'currentFile') {
+                showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
+                await this.createAnkiCardsFromCurrentFile();
+            } else if (this.settings.fileScope === 'directory') {
+                showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
+                await this.createAnkiCardsFromDirectory();
+            }
+        } catch {
+            this.toggleRibbonIcon('done');
+            this.isProcessing = false;
         }
 
         this.toggleRibbonIcon('done');
@@ -198,8 +203,9 @@ export default class BlueStar extends Plugin {
             heading: this.settings.currentHeadingLevel || 2,
             update: this.settings.updateExisting,
             single: this.settings.allowSingleField,
+            html: this.settings.htmlLineBreak,
             start: this.settings.customDelimiters.cardStart,
-            separator: this.settings.customDelimiters.fieldSeparator,
+            separator: this.settings.fieldSeparator,
             end: this.settings.customDelimiters.cardEnd,
             ignore: false,
         }

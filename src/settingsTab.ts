@@ -85,6 +85,16 @@ export class BlueStarSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
+            .setName('Add HTML break')
+            .setDesc('If enabled, add HTML line break <br>.')
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.htmlLineBreak)
+                .onChange(async (value) => {
+                    this.plugin.settings.htmlLineBreak = value;
+                    await this.plugin.saveSettings();
+                }));
+    
+        new Setting(containerEl)
             .setName('Anki deck')
             .setDesc('The default deck to add cards to.')
             .addText(text => text
@@ -127,9 +137,10 @@ export class BlueStarSettingTab extends PluginSettingTab {
                 .addOption('multi-subparagraph', 'Multi-Subparagraph')
                 .addOption('regex', 'Regex')
                 .addOption('custom-delimiter', 'Custom delimiter')
+                .addOption('single-delimiter', 'Single delimiter')
                 .setValue(this.plugin.settings.matchMode)
                 .onChange(async (value) => {
-                    this.plugin.settings.matchMode = value as 'section-subsection' | 'heading-paragraph' | 'multi-subsection' | 'multi-subparagraph' | 'regex' | 'custom-delimiter';
+                    this.plugin.settings.matchMode = value as 'section-subsection' | 'heading-paragraph' | 'multi-subsection' | 'multi-subparagraph' | 'regex' | 'custom-delimiter' | 'single-delimiter';
                     await this.plugin.saveSettings();
                     this.display();
                 }));
@@ -150,6 +161,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         this.plugin.settings.currentHeadingLevel = parseInt(value);
                         await this.plugin.saveSettings();
                     }));
+            this.plugin.settings.currentHeadingLevel = this.plugin.settings.headingLevel['section-subsection'];
+            this.plugin.saveSettings();
         } else if (this.plugin.settings.matchMode === 'heading-paragraph') {
             new Setting(containerEl)
                 .setName('Heading level')
@@ -166,6 +179,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         this.plugin.settings.currentHeadingLevel = parseInt(value);
                         await this.plugin.saveSettings();
                     }));
+            this.plugin.settings.currentHeadingLevel = this.plugin.settings.headingLevel['heading-paragraph'];
+            this.plugin.saveSettings();
         } else if (this.plugin.settings.matchMode === 'multi-subsection') {
             new Setting(containerEl)
                 .setName('Heading level')
@@ -182,6 +197,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         this.plugin.settings.currentHeadingLevel = parseInt(value);
                         await this.plugin.saveSettings();
                     }));
+            this.plugin.settings.currentHeadingLevel = this.plugin.settings.headingLevel['multi-subsection'];
+            this.plugin.saveSettings();
         } else if (this.plugin.settings.matchMode === 'multi-subparagraph') {
             new Setting(containerEl)
                 .setName('Heading level')
@@ -198,6 +215,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         this.plugin.settings.currentHeadingLevel = parseInt(value);
                         await this.plugin.saveSettings();
                     }));
+            this.plugin.settings.currentHeadingLevel = this.plugin.settings.headingLevel['multi-subparagraph'];
+            this.plugin.saveSettings();
         } else if (this.plugin.settings.matchMode === 'regex') {
             new Setting(containerEl)
                 .setName('Regex patterns')
@@ -278,8 +297,11 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.customDelimiters.fieldSeparator)
                     .onChange(async (value) => {
                         this.plugin.settings.customDelimiters.fieldSeparator = value;
+                        this.plugin.settings.fieldSeparator = value;
                         await this.plugin.saveSettings();
                     }));
+            this.plugin.settings.fieldSeparator = this.plugin.settings.customDelimiters.fieldSeparator;
+            this.plugin.saveSettings();
 
             new Setting(containerEl)
                 .setName('Card end delimiter')
@@ -291,6 +313,20 @@ export class BlueStarSettingTab extends PluginSettingTab {
                         this.plugin.settings.customDelimiters.cardEnd = value;
                         await this.plugin.saveSettings();
                     }));
+        } else if (this.plugin.settings.matchMode === 'single-delimiter') {
+            new Setting(containerEl)
+                .setName('Field separator')
+                .setDesc('Specify the delimiter to separate fields within a card.')
+                .addText(text => text
+                    .setPlaceholder('field separator')
+                    .setValue(this.plugin.settings.signleDelimiter.fieldSeparator)
+                    .onChange(async (value) => {
+                        this.plugin.settings.signleDelimiter.fieldSeparator = value;
+                        this.plugin.settings.fieldSeparator = value;
+                        await this.plugin.saveSettings();
+                    }));
+            this.plugin.settings.fieldSeparator = this.plugin.settings.signleDelimiter.fieldSeparator;
+            this.plugin.saveSettings();
         }
 
         new Setting(containerEl)

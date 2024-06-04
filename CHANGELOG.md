@@ -75,3 +75,14 @@
 ### Added
 
 - Add logic to prevent duplicate execution.
+
+
+## [1.0.9] - 2024-06-03
+
+### Added
+
+- Added Single delimiter matching mode.
+- Add a switch to control whether to insert HTML line breaks.
+
+### Fixed
+- Fixed some bugs.

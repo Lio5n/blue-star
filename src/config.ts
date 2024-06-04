@@ -8,6 +8,7 @@ export interface RegexPattern {
 export interface BlueStarSettings {
     updateExisting: boolean;
     allowSingleField: boolean;
+    htmlLineBreak: boolean,
     fileScope: 'currentFile' | 'directory';
     directoryPath: string;
     includeFileTag: string;
@@ -15,7 +16,7 @@ export interface BlueStarSettings {
     ankiDeck: string;
     ankiModel: string;
     ankiTag: string;
-    matchMode: 'section-subsection' | 'heading-paragraph' | 'multi-subsection' | 'multi-subparagraph' | 'regex' | 'custom-delimiter';
+    matchMode: 'section-subsection' | 'heading-paragraph' | 'multi-subsection' | 'multi-subparagraph' | 'regex' | 'custom-delimiter' | 'single-delimiter';
     headingLevel: { [key: string]: number };
     currentHeadingLevel: number;
     regexPatterns: RegexPattern[];
@@ -24,11 +25,16 @@ export interface BlueStarSettings {
         fieldSeparator: string;
         cardEnd: string;
     };
+    signleDelimiter: {
+        fieldSeparator: string;
+    }
+    fieldSeparator: string;
 }
 
 export const DEFAULT_SETTINGS: BlueStarSettings = {
     updateExisting: false,
     allowSingleField: true,
+    htmlLineBreak: false,
     fileScope: 'currentFile',
     directoryPath: 'Anki',
     includeFileTag: '',
@@ -37,13 +43,13 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
     ankiModel: 'Basic',
     ankiTag: 'blue-star',
     matchMode: 'section-subsection',
+    currentHeadingLevel: 2,
     headingLevel: {
         'section-subsection': 2,
         'heading-paragraph': 2,
         'multi-subsection': 2,
         'multi-subparagraph': 2
     },
-    currentHeadingLevel: 2,
     regexPatterns: [
         {
             alias: 'Single line separated by ::',
@@ -71,7 +77,7 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
         },
         {
             alias: 'Cloze paragraph format',
-            pattern: '((?:.+\n)*(?:.*{.*)(?:\n(?:^.{1,3}$|^.{4}(?<!<!--).*))*)',
+            pattern: '((?:.+\n)*(?:.*{{c.*)(?:\n(?:^.{1,3}$|^.{4}(?<!<!--).*))*)',
             flags: 'gm',
             enabled: false
         },
@@ -98,5 +104,9 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
         cardStart: '<!-- card start -->',
         fieldSeparator: '<!-- field separator -->',
         cardEnd: '<!-- card end -->'
-    }
+    },
+    signleDelimiter: {
+        fieldSeparator: '<!-- field separator -->',
+    },
+    fieldSeparator: '<!-- field separator -->'
 }

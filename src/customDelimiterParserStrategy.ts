@@ -1,17 +1,22 @@
 import { ParserStrategy, lineTypeChecker } from './parser';
 import { showNotice } from './ui';
 
-export class CustomDelimitersParserStrategy implements ParserStrategy {
+export class CustomDelimiterParserStrategy implements ParserStrategy {
     private cardStart: string;
     private fieldSeparator: string;
     private cardEnd: string;
     private allowSingleField: boolean;
+    private htmlBreak: string;
 
-    constructor(cardStart: string, fieldSeparator: string, cardEnd: string, allowSingleField: boolean) {
+    constructor(cardStart: string, fieldSeparator: string, cardEnd: string, allowSingleField: boolean, html: boolean) {
         this.allowSingleField = allowSingleField;
         this.cardStart = cardStart.trim();
         this.fieldSeparator = fieldSeparator.trim();
         this.cardEnd = cardEnd.trim();
+        if(html)
+            this.htmlBreak = '<br>';
+        else
+            this.htmlBreak = '';
     }
 
     parse(content: string, config: any): any[] {
@@ -78,12 +83,12 @@ export class CustomDelimitersParserStrategy implements ParserStrategy {
             }
 
             if(currentFied)
-                currentFied += '\n' + line;
+                currentFied += '\n' + this.htmlBreak + line;
             else
                 currentFied = line;
         }
 
-        if (currentFied.replace(/\n+$/, ""))
+        if (currentFied.replace(this.htmlBreak,"").replace(/\n+$/, ""))
             currentCard.push(currentFied);
         if (currentCard.length>=minFieldsCount)
             cards.push(currentCard);

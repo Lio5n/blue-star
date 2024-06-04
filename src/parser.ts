@@ -1,5 +1,6 @@
 import { BlueStarSettings } from './config';
-import { CustomDelimitersParserStrategy } from './customDelimitersParserStrategy';
+import { CustomDelimiterParserStrategy } from './customDelimiterParserStrategy';
+import { CustomSingleDelimiterParserStrategy } from './customSingleDelimiterParserStrategy';
 import { HeadingParagraphParserStrategy } from './headingParagraphParserStrategy';
 import { MultiSubparagraphParserStrategy } from './multiSubparagraphParserStrategy';
 import { MultiSubsectionParserStrategy } from './multiSubsectionParserStrategy';
@@ -21,6 +22,7 @@ export interface AnkiConfig {
     heading?: number;
     update: boolean;
     single: boolean;
+    html: boolean;
     start: string;
     separator: string;
     end: string;
@@ -34,45 +36,52 @@ export class Parser {
 
         if (parserType === 'regex') {
             if (!config.regex) {
-                showNotice('Regex pattern is required for RegexParserStrategy');
+                showNotice('Regex pattern is required for "Regex" parser strategy');
                 throw new Error('Regex pattern is required for RegexParserStrategy');
             }
-            this.strategy = new RegexParserStrategy(config.regex, config.flags || 'g', config.single);
+            this.strategy = new RegexParserStrategy(config.regex, config.flags || 'g', config.single, config.html);
 
         } else if (parserType === 'section-subsection') {
             if (config.heading === undefined || !config.heading || config.heading<=0) {
-                showNotice('Heading level is required for SectionSubsectioinParserStrategy');
+                showNotice('Heading level is required for "Section::Subsectioin" parser strategy');
                 throw new Error('Heading level is required for SectionSubsectioinParserStrategy');
             }
-            this.strategy = new SectionSubSectionParserStrategy(config.heading, config.single);
+            this.strategy = new SectionSubSectionParserStrategy(config.heading, config.single, config.html);
 
         } else if (parserType === 'heading-paragraph') {
             if (config.heading === undefined || !config.heading || config.heading<=0) {
-                showNotice('Heading level is required for HeadingParagraphParserStrategy');
+                showNotice('Heading level is required for "Heading::Paragraph" parser strategy');
                 throw new Error('Heading level is required for HeadingParagraphParserStrategy');
             }
-            this.strategy = new HeadingParagraphParserStrategy(config.heading, config.single);
+            this.strategy = new HeadingParagraphParserStrategy(config.heading, config.single, config.html);
 
         } else if (parserType === 'multi-subsection') {
             if (config.heading === undefined || !config.heading || config.heading<=0) {
-                showNotice('Heading level is required for MultiSubsectionParserStrategy');
+                showNotice('Heading level is required for "Multi-Subsection" parser strategy');
                 throw new Error('Heading level is required for MultiSubsectionParserStrategy');
             }
-            this.strategy = new MultiSubsectionParserStrategy(config.heading, config.single);
+            this.strategy = new MultiSubsectionParserStrategy(config.heading, config.single, config.html);
 
         } else if (parserType === 'multi-subparagraph') {
             if (config.heading === undefined || !config.heading || config.heading<=0) {
-                showNotice('Heading level is required for MultiSubparagraphParserStrategy');
+                showNotice('Heading level is required for "Multi-Subparagraph" parser strategy');
                 throw new Error('Heading level is required for MultiSubparagraphParserStrategy');
             }
-            this.strategy = new MultiSubparagraphParserStrategy(config.heading, config.single);
+            this.strategy = new MultiSubparagraphParserStrategy(config.heading, config.single, config.html);
 
         } else if (parserType === 'custom-delimiter') {
             if (!config.start.trim() || !config.separator.trim() || !config.end.trim()) {
-                showNotice('Custom delimiter is required for HeadingParserStrategy');
-                throw new Error('Custom delimiter is required for HeadingParserStrategy');
+                showNotice('Custom delimiter is required for "Custom delimiter" parser strategy');
+                throw new Error('Custom delimiter is required for CustomDelimiterParserStrategy');
             }
-            this.strategy = new CustomDelimitersParserStrategy(config.start, config.separator, config.end, config.single);
+            this.strategy = new CustomDelimiterParserStrategy(config.start, config.separator, config.end, config.single, config.html);
+
+        } else if (parserType === 'single-delimiter') {
+            if (!config.separator.trim()) {
+                showNotice('Custom delimiter is required for "Single delimiter" parser strategy');
+                throw new Error('Custom delimiter is required for CustomSingleDelimiterParserStrategy');
+            }
+            this.strategy = new CustomSingleDelimiterParserStrategy(config.separator, config.single, config.html);
 
         } else {
             showNotice(`Unknown parser type: ${parserType}`);
@@ -121,6 +130,9 @@ export class Parser {
                 if (lowerKey === 'upsert') config.update = this.parseBoolean(value);
                 if (lowerKey === 'single') config.single = this.parseBoolean(value);
                 if (lowerKey === 'single-field') config.single = this.parseBoolean(value);
+                if (lowerKey === 'html') config.html = this.parseBoolean(value);
+                if (lowerKey === 'html-break') config.html = this.parseBoolean(value);
+                if (lowerKey === 'html-line-break') config.html = this.parseBoolean(value);
                 if (lowerKey === 'card-start') config.start = value;
                 if (lowerKey === 'field') config.separator = value;
                 if (lowerKey === 'field-split') config.separator = value;

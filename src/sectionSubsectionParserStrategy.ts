@@ -4,8 +4,9 @@ import { showNotice } from './ui';
 export class SectionSubSectionParserStrategy implements ParserStrategy {
     private headingLevel: number;
     private allowSingleField: boolean;
+    private htmlBreak: string;
 
-    constructor(headingLevel: number, allowSingleField: boolean) {
+    constructor(headingLevel: number, allowSingleField: boolean, html: boolean) {
         /*
         if (headingLevel < 1 || headingLevel > 5) {
             throw new Error('Heading level must be between 1 and 5');
@@ -13,6 +14,10 @@ export class SectionSubSectionParserStrategy implements ParserStrategy {
         */
         this.headingLevel = headingLevel;
         this.allowSingleField = allowSingleField;
+        if (html)
+            this.htmlBreak = '<br>';
+        else
+            this.htmlBreak = '';
     }
 
     parse(content: string, config: any): any[] {
@@ -68,7 +73,7 @@ export class SectionSubSectionParserStrategy implements ParserStrategy {
                     continue
                 }
 
-                currentFied += '\n' + line;
+                currentFied += '\n' + this.htmlBreak + line;
 
                 continue
             }
@@ -90,7 +95,7 @@ export class SectionSubSectionParserStrategy implements ParserStrategy {
                 continue;
             }
 
-            currentFied += '\n' + line;
+            currentFied += '\n' + this.htmlBreak + line;
         }
 
         if (currentFied)

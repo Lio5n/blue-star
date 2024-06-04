@@ -148,6 +148,26 @@ Custom Delimiter Card Back
 **Back:**
 <div> <img src="./images/custom-delimiter-back.png/" alt="Description" width="400"> </div>
 
+### Single delimiter
+
+Generates cards based on custom start, field separator, and end delimiters. 
+
+**Note**:
+
+```
+# Example
+
+Custom Delimiter Card Front
+<!-- field separator -->
+Custom Delimiter Card Back
+```
+
+**Front:**
+<div> <img src="./images/custom-delimiter-front.png/" alt="Description" width="400"> </div>
+
+**Back:**
+<div> <img src="./images/custom-delimiter-back.png/" alt="Description" width="400"> </div>
+
 ### Regex
 
 Generates cards based on regular expressions. If you create a useful regex, please share it on the plugin's GitHub page. Many thanks!
@@ -177,14 +197,15 @@ parser: section-subsection
 * `model` / `anki-model` / `note-type` / `anki-note-type`
 * `tag` / `anki-tag` / `card-tag` / `anki-card-tag`
 * `parser` / `parser-mode` / `match` / `match-mode` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-suparagraph`, `regex`, `custom-delimiter`)
+* `heading` / `heading-level`
 * `regex`
 * `flags` / `regex-flag` / `flag` / `regex-flags`
-* `heading` / `heading-level`
-* `update` / `upsert` (Values: `true` or `false`)
-* `single` / `single-field` (Values: `true` or `false`)
 * `card-start`
 * `field-separator` / `field-split` / `field`
 * `card-end`
+* `update` / `upsert` (Values: `true` or `false`)
+* `single` / `single-field` (Values: `true` or `false`)
+* `html` / `html-break` / `html-line-break` (Values: `true` or `false`)
 * `ignore` (Values: `true` or `false`)
 
 ## Deck Tip

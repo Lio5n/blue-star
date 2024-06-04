@@ -4,8 +4,9 @@ import { showNotice } from './ui';
 export class MultiSubparagraphParserStrategy implements ParserStrategy {
     private headingLevel: number;
     private allowSingleField: boolean;
+    private htmlBreak: string;
 
-    constructor(headingLevel: number, allowSingleField: boolean) {
+    constructor(headingLevel: number, allowSingleField: boolean, html: boolean) {
         /*
         if (headingLevel < 1 || headingLevel > 5) {
             throw new Error('Heading level must be between 1 and 5');
@@ -13,6 +14,10 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
         */
         this.headingLevel = headingLevel;
         this.allowSingleField = allowSingleField;
+        if (html)
+            this.htmlBreak = '<br>';
+        else
+            this.htmlBreak = '';
     }
 
     parse(content: string, config: any): any[] {
@@ -61,7 +66,7 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
                     continue;
                 
                 if (currentFied)
-                    currentFied += '\n' + line;
+                    currentFied += this.htmlBreak + '\n' + line;
                 else
                     currentFied = line;
 
@@ -89,13 +94,13 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
             }
 
             if (currentFied)
-                currentFied += '\n' + line;
+                currentFied += '\n' + this.htmlBreak + line;
             else
                 currentFied = line;
 
         }
 
-        if (currentFied.replace(/\n+$/, ""))
+        if (currentFied.replace(this.htmlBreak,"").replace(/\n+$/, ""))
             currentCard.push(currentFied)
         if (currentCard.length>=minFieldsCount)
             cards.push(currentCard);
