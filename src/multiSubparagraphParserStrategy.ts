@@ -79,7 +79,7 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
             if (lineType.type=='code-symbol' && !inCodeBlock) {
                 inCodeBlock = lineType.codeSymbolNumber ? lineType.codeSymbolNumber : 0;
                 if (currentFied)
-                    currentFied += '\n' + line;
+                    currentFied += '\n' + this.htmlBreak + line;
                 else
                     currentFied = line;
                 continue;
@@ -100,7 +100,7 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
 
         }
 
-        if (currentFied.replace(this.htmlBreak,"").replace(/\n+$/, ""))
+        if (currentFied.replace(/\n+$/, ""))
             currentCard.push(currentFied)
         if (currentCard.length>=minFieldsCount)
             cards.push(currentCard);

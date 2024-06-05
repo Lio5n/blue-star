@@ -26,6 +26,23 @@ export class CustomSingleDelimiterParserStrategy implements ParserStrategy {
 
         for (const line of lines) {
             const trimmedLine = line.trim();
+            const lineType = lineTypeChecker(trimmedLine)
+
+            if (lineType.type=='code-symbol' && !inCodeBlock) {
+                inCodeBlock = lineType.codeSymbolNumber ? lineType.codeSymbolNumber : 0;
+                if(currentFied)
+                    currentFied += '\n' + this.htmlBreak + line;
+                else
+                    currentFied = line;
+                continue;
+            }
+
+            if (inCodeBlock) {
+                if (lineType.type=='code-symbol' && lineType.codeSymbolType=='can-be-end' && inCodeBlock<=lineType.codeSymbolNumber)
+                    inCodeBlock = 0;
+                currentFied += '\n' + line;
+                continue;
+            }
 
             if (!trimmedLine) {
                 if(currentFied)

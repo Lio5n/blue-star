@@ -77,7 +77,7 @@
 - Add logic to prevent duplicate execution.
 
 
-## [1.0.9] - 2024-06-03
+## [1.0.9] - 2024-06-05
 
 ### Added
 

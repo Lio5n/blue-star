@@ -83,7 +83,7 @@ export class SectionSubSectionParserStrategy implements ParserStrategy {
 
             if (lineType.type=='code-symbol' && !inCodeBlock) {
                 inCodeBlock = lineType.codeSymbolNumber ? lineType.codeSymbolNumber : 0;
-                currentFied += '\n' + line;
+                currentFied += '\n' + this.htmlBreak + line;
                 continue;
             }
 
