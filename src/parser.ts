@@ -1,3 +1,4 @@
+import { parseYaml } from 'obsidian';
 import { BlueStarSettings } from './config';
 import { CustomDelimiterParserStrategy } from './customDelimiterParserStrategy';
 import { CustomSingleDelimiterParserStrategy } from './customSingleDelimiterParserStrategy';
@@ -33,56 +34,48 @@ export class Parser {
     private strategy: ParserStrategy;
 
     constructor(parserType: string, config: AnkiConfig) {
-
         if (parserType === 'regex') {
             if (!config.regex) {
                 showNotice('Regex pattern is required for "Regex" parser strategy');
                 throw new Error('Regex pattern is required for RegexParserStrategy');
             }
             this.strategy = new RegexParserStrategy(config.regex, config.flags || 'g', config.single, config.html);
-
         } else if (parserType === 'section-subsection') {
-            if (config.heading === undefined || !config.heading || config.heading<=0) {
+            if (config.heading === undefined || !config.heading || config.heading <= 0) {
                 showNotice('Heading level is required for "Section::Subsectioin" parser strategy');
                 throw new Error('Heading level is required for SectionSubsectioinParserStrategy');
             }
             this.strategy = new SectionSubSectionParserStrategy(config.heading, config.single, config.html);
-
         } else if (parserType === 'heading-paragraph') {
-            if (config.heading === undefined || !config.heading || config.heading<=0) {
+            if (config.heading === undefined || !config.heading || config.heading <= 0) {
                 showNotice('Heading level is required for "Heading::Paragraph" parser strategy');
                 throw new Error('Heading level is required for HeadingParagraphParserStrategy');
             }
             this.strategy = new HeadingParagraphParserStrategy(config.heading, config.single, config.html);
-
         } else if (parserType === 'multi-subsection') {
-            if (config.heading === undefined || !config.heading || config.heading<=0) {
+            if (config.heading === undefined || !config.heading || config.heading <= 0) {
                 showNotice('Heading level is required for "Multi-Subsection" parser strategy');
                 throw new Error('Heading level is required for MultiSubsectionParserStrategy');
             }
             this.strategy = new MultiSubsectionParserStrategy(config.heading, config.single, config.html);
-
         } else if (parserType === 'multi-subparagraph') {
-            if (config.heading === undefined || !config.heading || config.heading<=0) {
+            if (config.heading === undefined || !config.heading || config.heading <= 0) {
                 showNotice('Heading level is required for "Multi-Subparagraph" parser strategy');
                 throw new Error('Heading level is required for MultiSubparagraphParserStrategy');
             }
             this.strategy = new MultiSubparagraphParserStrategy(config.heading, config.single, config.html);
-
         } else if (parserType === 'custom-delimiter') {
             if (!config.start.trim() || !config.separator.trim() || !config.end.trim()) {
                 showNotice('Custom delimiter is required for "Custom delimiter" parser strategy');
                 throw new Error('Custom delimiter is required for CustomDelimiterParserStrategy');
             }
             this.strategy = new CustomDelimiterParserStrategy(config.start, config.separator, config.end, config.single, config.html);
-
         } else if (parserType === 'single-delimiter') {
             if (!config.separator.trim()) {
                 showNotice('Custom delimiter is required for "Single delimiter" parser strategy');
                 throw new Error('Custom delimiter is required for CustomSingleDelimiterParserStrategy');
             }
             this.strategy = new CustomSingleDelimiterParserStrategy(config.separator, config.single, config.html);
-
         } else {
             showNotice(`Unknown parser type: ${parserType}`);
             throw new Error(`Unknown parser type: ${parserType}`);
@@ -97,55 +90,78 @@ export class Parser {
         const configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
         if (!configMatch) return null;
 
-        const configLines = configMatch[1].split('\n').map(line => line.trim());
-        const config: Partial<AnkiConfig> = {};
+        try {
+            const rawConfig = parseYaml(configMatch[1]) as Record<string, any>;
+            const config: Partial<AnkiConfig> = {};
 
-        for (const line of configLines) {
-            const [key, ...valueParts] = line.split(/[:：]/);
-            const value = valueParts.join(':').trim();
-            if (key && value) {
+            const keyMap: Record<string, keyof AnkiConfig> = {
+                'deck': 'deck',
+                'anki-deck': 'deck',
+                'model': 'model',
+                'anki-model': 'model',
+                'note-type': 'model',
+                'anki-note-type': 'model',
+                'tag': 'tag',
+                'anki-tag': 'tag',
+                'card-tag': 'tag',
+                'anki-card-tag': 'tag',
+                'parser': 'parser',
+                'parser-mode': 'parser',
+                'match': 'parser',
+                'match-mode': 'parser',
+                'regex': 'regex',
+                'flags': 'flags',
+                'regex-flags': 'flags',
+                'flag': 'flags',
+                'regex-flag': 'flags',
+                'heading': 'heading',
+                'heading-level': 'heading',
+                'update': 'update',
+                'upsert': 'update',
+                'single': 'single',
+                'single-field': 'single',
+                'html': 'html',
+                'html-break': 'html',
+                'html-line-break': 'html',
+                'card-start': 'start',
+                'field': 'separator',
+                'field-split': 'separator',
+                'field-separator': 'separator',
+                'card-end': 'end',
+                'ignore': 'ignore'
+            };
+
+            for (const [key, value] of Object.entries(rawConfig)) {
                 const lowerKey = key.toLowerCase();
-                if (lowerKey === 'deck') config.deck = value;
-                if (lowerKey === 'anki-deck') config.deck = value;
-                if (lowerKey === 'model') config.model = value;
-                if (lowerKey === 'anki-model') config.model = value;
-                if (lowerKey === 'note-type') config.model = value;
-                if (lowerKey === 'anki-note-type') config.model = value;
-                if (lowerKey === 'tag') config.tag = value;
-                if (lowerKey === 'anki-tag') config.tag = value;
-                if (lowerKey === 'card-tag') config.tag = value;
-                if (lowerKey === 'anki-card-tag') config.tag = value;
-                if (lowerKey === 'parser') config.parser = value;
-                if (lowerKey === 'parser-mode') config.parser = value;
-                if (lowerKey === 'match') config.parser = value;
-                if (lowerKey === 'match-mode') config.parser = value;
-                if (lowerKey === 'regex') config.regex = value;
-                if (lowerKey === 'flags') config.flags = value;
-                if (lowerKey === 'regex-flags') config.flags = value;
-                if (lowerKey === 'flag') config.flags = value;
-                if (lowerKey === 'regex-flag') config.flags = value;
-                if (lowerKey === 'heading') config.heading = parseInt(value, 10);
-                if (lowerKey === 'heading-level') config.heading = parseInt(value, 10);
-                if (lowerKey === 'update') config.update = this.parseBoolean(value);
-                if (lowerKey === 'upsert') config.update = this.parseBoolean(value);
-                if (lowerKey === 'single') config.single = this.parseBoolean(value);
-                if (lowerKey === 'single-field') config.single = this.parseBoolean(value);
-                if (lowerKey === 'html') config.html = this.parseBoolean(value);
-                if (lowerKey === 'html-break') config.html = this.parseBoolean(value);
-                if (lowerKey === 'html-line-break') config.html = this.parseBoolean(value);
-                if (lowerKey === 'card-start') config.start = value;
-                if (lowerKey === 'field') config.separator = value;
-                if (lowerKey === 'field-split') config.separator = value;
-                if (lowerKey === 'field-separator') config.separator = value;
-                if (lowerKey === 'card-end') config.end = value;
-                if (lowerKey === 'ignore') config.ignore = this.parseBoolean(value);
-            }
-        }
+                const mappedKey = keyMap[lowerKey];
 
-        return config;
+                if (mappedKey) {
+                    if (mappedKey === 'heading') {
+                        config[mappedKey] = parseInt(value, 10);
+                    } else if (['update', 'single', 'html', 'ignore'].includes(mappedKey)) {
+                        if (typeof value === 'string') {
+                            config[mappedKey] = this.parseBoolean(value) as any;
+                        } else {
+                            config[mappedKey] = Boolean(value) as any;
+                        }
+                    } else {
+                        config[mappedKey] = value;
+                    }
+                }
+            }
+
+            return config;
+        } catch (error) {
+            showNotice('Document-level configuration error.');
+            console.error('Failed to parse YAML config:', error);
+            throw(error);
+        }
     }
 
     private static parseBoolean(value: string): boolean {
+        if (typeof value !== 'string') {
+            throw new TypeError('Expected a string for parseBoolean');
+        }
         const normalizedValue = value.trim().toLowerCase();
         return ['true', '1', 'yes', 'y'].includes(normalizedValue);
     }

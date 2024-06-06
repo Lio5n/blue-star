@@ -1,7 +1,7 @@
 {
 	"id": "blue-star",
 	"name": "Blue Star",
-	"version": "1.0.9",
+	"version": "1.1.0",
 	"minAppVersion": "0.15.0",
 	"description": "Generate Anki flashcards in multiple ways.",
 	"author": "Wang Guoshi",

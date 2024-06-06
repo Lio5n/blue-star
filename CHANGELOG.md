@@ -86,3 +86,19 @@
 
 ### Fixed
 - Fixed some bugs.
+
+
+## [1.1.0] - 2024-06-06
+
+### Removed
+
+- Removed unnecessary logs.
+
+### Added
+
+- Added level 6 heading.
+
+### Changed
+
+- Switched to YAML for parsing document-level configuration.
+- Added level 6 heading.

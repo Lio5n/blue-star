@@ -14,7 +14,7 @@ export class BlueStarSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Generate Anki Flashcards' });
+        containerEl.createEl('h2', { text: 'Anki Flashcards' });
 
         new Setting(containerEl)
             .setName('File scope')
@@ -155,6 +155,7 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     .addOption('3', 'Heading 3')
                     .addOption('4', 'Heading 4')
                     .addOption('5', 'Heading 5')
+                    .addOption('6', 'Heading 6')
                     .setValue(this.plugin.settings.headingLevel['section-subsection'].toString())
                     .onChange(async (value) => {
                         this.plugin.settings.headingLevel['section-subsection'] = parseInt(value);
@@ -173,6 +174,7 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     .addOption('3', 'Heading 3')
                     .addOption('4', 'Heading 4')
                     .addOption('5', 'Heading 5')
+                    .addOption('6', 'Heading 6')
                     .setValue(this.plugin.settings.headingLevel['heading-paragraph'].toString())
                     .onChange(async (value) => {
                         this.plugin.settings.headingLevel['heading-paragraph'] = parseInt(value);
@@ -191,6 +193,7 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     .addOption('3', 'Heading 3')
                     .addOption('4', 'Heading 4')
                     .addOption('5', 'Heading 5')
+                    .addOption('6', 'Heading 6')
                     .setValue(this.plugin.settings.headingLevel['multi-subsection'].toString())
                     .onChange(async (value) => {
                         this.plugin.settings.headingLevel['multi-subsection'] = parseInt(value);
@@ -209,6 +212,7 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     .addOption('3', 'Heading 3')
                     .addOption('4', 'Heading 4')
                     .addOption('5', 'Heading 5')
+                    .addOption('6', 'Heading 6')
                     .setValue(this.plugin.settings.headingLevel['multi-subparagraph'].toString())
                     .onChange(async (value) => {
                         this.plugin.settings.headingLevel['multi-subparagraph'] = parseInt(value);

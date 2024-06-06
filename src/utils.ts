@@ -1,5 +1,5 @@
 export async function request(action: string, params: any = {}): Promise<any> {
-    console.log('Sending request to AnkiConnect:', { action, params });
+    // console.log('Sending request to AnkiConnect:', { action, params });
 
     const response = await fetch('http://localhost:8765', {
         method: 'POST',
@@ -14,7 +14,7 @@ export async function request(action: string, params: any = {}): Promise<any> {
     });
 
     const data = await response.json();
-    console.log('Received response from AnkiConnect:', data);
+    // console.log('Received response from AnkiConnect:', data);
 
     if (data.error) {
         throw new Error(data.error);

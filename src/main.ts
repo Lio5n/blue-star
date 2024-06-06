@@ -93,7 +93,7 @@ export default class BlueStar extends Plugin {
 
         const parsedContent = parser.parse(fileContent, config);
 
-        console.log('Parsed content:', parsedContent);
+        // console.log('Parsed content:', parsedContent);
 
         if (parsedContent.length === 0) {
             showNotice(`No content matched the pattern in file "${activeFile.name}".`);
