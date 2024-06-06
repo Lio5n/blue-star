@@ -90,6 +90,64 @@ export class Parser {
         const configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
         if (!configMatch) return null;
 
+        const configLines = configMatch[1].split('\n').map(line => line.trim());
+        const config: Partial<AnkiConfig> = {};
+
+        for (const line of configLines) {
+            const [key, ...valueParts] = line.split(/[:：]/);
+            const value = valueParts.join(':').trim();
+            if (key && value) {
+                const lowerKey = key.toLowerCase();
+                if (lowerKey === 'deck') config.deck = value;
+                if (lowerKey === 'anki-deck') config.deck = value;
+                if (lowerKey === 'model') config.model = value;
+                if (lowerKey === 'anki-model') config.model = value;
+                if (lowerKey === 'note-type') config.model = value;
+                if (lowerKey === 'anki-note-type') config.model = value;
+                if (lowerKey === 'tag') config.tag = value;
+                if (lowerKey === 'anki-tag') config.tag = value;
+                if (lowerKey === 'card-tag') config.tag = value;
+                if (lowerKey === 'anki-card-tag') config.tag = value;
+                if (lowerKey === 'parser') config.parser = value;
+                if (lowerKey === 'parser-mode') config.parser = value;
+                if (lowerKey === 'match') config.parser = value;
+                if (lowerKey === 'match-mode') config.parser = value;
+                if (lowerKey === 'regex') config.regex = value;
+                if (lowerKey === 'flags') config.flags = value;
+                if (lowerKey === 'regex-flags') config.flags = value;
+                if (lowerKey === 'flag') config.flags = value;
+                if (lowerKey === 'regex-flag') config.flags = value;
+                if (lowerKey === 'heading') config.heading = parseInt(value, 10);
+                if (lowerKey === 'heading-level') config.heading = parseInt(value, 10);
+                if (lowerKey === 'update') config.update = this.parseBoolean(value);
+                if (lowerKey === 'upsert') config.update = this.parseBoolean(value);
+                if (lowerKey === 'single') config.single = this.parseBoolean(value);
+                if (lowerKey === 'single-field') config.single = this.parseBoolean(value);
+                if (lowerKey === 'html') config.html = this.parseBoolean(value);
+                if (lowerKey === 'html-break') config.html = this.parseBoolean(value);
+                if (lowerKey === 'html-line-break') config.html = this.parseBoolean(value);
+                if (lowerKey === 'card-start') config.start = value;
+                if (lowerKey === 'field') config.separator = value;
+                if (lowerKey === 'field-split') config.separator = value;
+                if (lowerKey === 'field-separator') config.separator = value;
+                if (lowerKey === 'card-end') config.end = value;
+                if (lowerKey === 'ignore') config.ignore = this.parseBoolean(value);
+            }
+        }
+
+        return config;
+    }
+
+    private static parseBoolean(value: string): boolean {
+        const normalizedValue = value.trim().toLowerCase();
+        return ['true', '1', 'yes', 'y'].includes(normalizedValue);
+    }
+
+    /*
+    static extractConfig(content: string): Partial<AnkiConfig> | null {
+        const configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
+        if (!configMatch) return null;
+
         try {
             const rawConfig = parseYaml(configMatch[1]) as Record<string, any>;
             const config: Partial<AnkiConfig> = {};
@@ -165,6 +223,7 @@ export class Parser {
         const normalizedValue = value.trim().toLowerCase();
         return ['true', '1', 'yes', 'y'].includes(normalizedValue);
     }
+    */
 }
 
 export function lineTypeChecker(line: String) {
