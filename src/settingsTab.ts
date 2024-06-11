@@ -339,5 +339,8 @@ export class BlueStarSettingTab extends PluginSettingTab {
         const usageHint = containerEl.createEl('p', { text: '2. For usage instructions, please refer to: ' });
         usageHint.createEl('a', { href: 'https://github.com/Lio5n/blue-star', text: 'https://github.com/Lio5n/blue-star' });
         usageHint.addClass('blue-star-usage-instructions');
+        const usageHint2 = containerEl.createEl('p', { text: '3. Obsidian_2_Anki is a powerful Obsidian plugin for generating Anki flashcards. Our Regex come from '});
+        usageHint2.createEl('a', { href: 'https://github.com/ObsidianToAnki/Obsidian_to_Anki/wiki/Regex', text: 'Obsidian_2_Anki'});
+        usageHint2.addClass('blue-star-usage-instructions');
     }
 }

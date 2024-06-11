@@ -172,7 +172,7 @@ Custom Delimiter Card Back
 
 Generates cards based on regular expressions. If you create a useful regex, please share it on the plugin's GitHub page. Many thanks!
 
-If you are not familiar with writing regular expressions (don't worry, neither am I), the Obsidian_2_Anki plugin provides some useful regex patterns. You can find them on its introduction page, which also includes usage examples. Many thanks to Obsidian_2_Anki.
+If you are not familiar with writing regular expressions (don't worry, neither am I), the Obsidian_2_Anki plugin provides some useful regex patterns. You can find them on its introduction page, which also includes usage examples. Many thanks to [Obsidian_2_Anki](https://github.com/ObsidianToAnki/Obsidian_to_Anki).
 
 When using regex patterns from Obsidian_2_Anki with this plugin, set the regex flags to `gm`. Obsidian_2_Anki regex introduction page: [Regex](https://github.com/ObsidianToAnki/Obsidian_to_Anki/wiki/Regex)
 
