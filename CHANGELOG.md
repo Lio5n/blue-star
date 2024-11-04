@@ -103,7 +103,7 @@
 ~~- Switched to YAML for parsing document-level configuration.~~
 ~~- Added level 6 heading.~~
 
-## [1.1.1] - 2024-11-21
+## [1.1.1] - 2024-11-05
 
 ### Removed:
 
