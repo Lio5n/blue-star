@@ -113,10 +113,6 @@ export default class BlueStar extends Plugin {
             showNotice('Directory path must be specified.');
             new InputPromptModal(this.app, 'Directory path must be specified.', () => {}).open();
             return;
-        } else if (folderPath.trim() === '/') {
-            showNotice('It is not recommended to scan the entire vault, so the directory should not be set to "/".');
-            new InputPromptModal(this.app, 'It is not recommended to scan the entire vault, so the directory should not be set to "/".', () => {}).open();
-            return;
         }
 
         const folder = this.app.vault.getAbstractFileByPath(folderPath);

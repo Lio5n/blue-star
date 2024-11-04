@@ -14,8 +14,6 @@ export class BlueStarSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Anki Flashcards' });
-
         new Setting(containerEl)
             .setName('File scope')
             .setDesc('Select the scope for generating Anki cards.')

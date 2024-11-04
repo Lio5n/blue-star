@@ -102,3 +102,13 @@
 
 ~~- Switched to YAML for parsing document-level configuration.~~
 ~~- Added level 6 heading.~~
+
+## [1.1.1] - 2024-11-21
+
+### Removed:
+
+- Delete the plugin title
+
+### Changed
+
+- Remove the restriction on scanning the entire vault.
