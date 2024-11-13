@@ -38,14 +38,25 @@ export async function createAnkiCards(parsedContent: any[], settings: AnkiConfig
 }
 
 async function addAnkiNotes(notes: any[], fileName: string) {
-    const response = await request('addNotes', { notes });
+    let addedCount = 0;
+    let skippedCount = 0;
 
-    if (!response || !Array.isArray(response)) {
-        throw new Error('Invalid response from AnkiConnect');
+    // Process notes one by one to handle duplicates
+    for (const note of notes) {
+        try {
+            const response = await request('addNote', { note });
+            if (response) {
+                addedCount++;
+            }
+        } catch (error) {
+            // Check if the error is due to duplicate note
+            if (error.message.includes('duplicate')) {
+                skippedCount++;
+            } else {
+                throw error; // Re-throw if it's a different error
+            }
+        }
     }
-
-    const addedCount = response.filter((id: number) => id !== null).length;
-    const skippedCount = response.filter((id: number) => id === null).length;
 
     showNotice(`Added ${addedCount} Anki cards and\nSkipped ${skippedCount} Anki cards\nfrom file "${fileName}".`);
 }
@@ -63,60 +74,66 @@ type NoteInfo = {
 };
 
 async function upsertAnkiNotes(notes: Note[], fileName: string) {
-
-    const response: (number | null)[] = await request('addNotes', { notes });
-
-    if (!response || !Array.isArray(response)) {
-        throw new Error('Invalid response from AnkiConnect');
-    }
-
     let addedCount = 0;
     let updatedCount = 0;
     let skipCount = 0;
     const failedNotes: Note[] = [];
 
-    response.forEach((id, index) => {
-        if (id === null) {
-            failedNotes.push(notes[index]);
-        } else {
-            addedCount++;
+    // Try to add notes one by one
+    for (const note of notes) {
+        try {
+            const response = await request('addNote', { note });
+            if (response) {
+                addedCount++;
+            }
+        } catch (error) {
+            if (error.message.includes('duplicate')) {
+                failedNotes.push(note);
+            } else {
+                throw error;
+            }
         }
-    });
+    }
 
     if (failedNotes.length > 0) {
-        
         const firstFieldKey = Object.keys(failedNotes[0].fields)[0];
         const queries = failedNotes.map(note => `"${firstFieldKey}:${note.fields[firstFieldKey]}"`);
         const noteIdsResponse: number[] = await request('findNotes', { query: queries.join(' OR ') });
 
         if (noteIdsResponse.length > 0) {
-            
             const notesInfo: NoteInfo[] = await request('notesInfo', { notes: noteIdsResponse });
 
             const notesToUpdate: { id: number; fields: { [key: string]: string }; tags: string[] }[] = [];
 
             notesInfo.forEach((noteInfo, index) => {
-                const failedNote = failedNotes[index];
-                const fieldsDifferent = Object.keys(failedNote.fields).some(
-                    key => failedNote.fields[key] !== noteInfo.fields[key].value
-                );
+                if (index < failedNotes.length) {  // 确保不会超出 failedNotes 范围
+                    const failedNote = failedNotes[index];
+                    const fieldsDifferent = Object.keys(failedNote.fields).some(
+                        key => failedNote.fields[key] !== noteInfo.fields[key].value
+                    );
 
-                if (fieldsDifferent) {
-                    notesToUpdate.push({
-                        id: noteInfo.noteId,
-                        fields: failedNote.fields,
-                        tags: failedNote.tags
-                    });
-                } else {
-                    skipCount++;
+                    if (fieldsDifferent) {
+                        notesToUpdate.push({
+                            id: noteInfo.noteId,
+                            fields: failedNote.fields,
+                            tags: failedNote.tags
+                        });
+                    } else {
+                        skipCount++;
+                    }
                 }
             });
 
             if (notesToUpdate.length > 0) {
-                await Promise.all(notesToUpdate.map(note => 
-                    request('updateNoteFields', { note })
-                ));
-                updatedCount += notesToUpdate.length;
+                for (const note of notesToUpdate) {
+                    try {
+                        await request('updateNoteFields', { note });
+                        updatedCount++;
+                    } catch (error) {
+                        console.error('Failed to update note:', error);
+                        skipCount++;
+                    }
+                }
             }
         }
     }
