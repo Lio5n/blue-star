@@ -8,30 +8,56 @@ import { InputPromptModal, showNotice } from './ui';
 
 export default class BlueStar extends Plugin {
     settings: BlueStarSettings;
-    ribbonIconEl: HTMLElement;
-    isProcessing: boolean = false;
+    currentFileIconEl: HTMLElement;
+    directoryIconEl: HTMLElement;
+    isProcessingCurrentFile: boolean = false;
+    isProcessingDirectory: boolean = false;
 
     async onload() {
         console.log('Loading Blue Star plugin');
         
         await this.loadSettings();
 
-        this.ribbonIconEl = this.addRibbonIcon('star', 'Create Anki cards', async () => {
-            if (!this.isProcessing) {
-                await this.createAnkiCardsFromFile();
+        // Add ribbon icon for current file
+        this.currentFileIconEl = this.addRibbonIcon('star', 'Create Anki cards from current file', async () => {
+            if (!this.isProcessingCurrentFile && !this.isProcessingDirectory) {
+                await this.createAnkiCardsFromCurrentFile();
             } else {
-                showNotice('Generating Anki flashcards...   ');
+                showNotice('Generating Anki flashcards...');
             }
         });
 
+        // Add ribbon icon for directory
+        this.directoryIconEl = this.addRibbonIcon('moon-star', 'Create Anki cards from directory', async () => {
+            if (!this.isProcessingCurrentFile && !this.isProcessingDirectory) {
+                await this.createAnkiCardsFromDirectory();
+            } else {
+                showNotice('Generating Anki flashcards...');
+            }
+        });
+
+        // Update command to only handle current file
         this.addCommand({
-            id: 'create-anki-cards',
-            name: 'Create Anki cards',
+            id: 'create-anki-cards-from-current-file',
+            name: 'Create Anki cards from current file',
             callback: async () => {
-                if (!this.isProcessing) {
-                    await this.createAnkiCardsFromFile();
+                if (!this.isProcessingCurrentFile && !this.isProcessingDirectory) {
+                    await this.createAnkiCardsFromCurrentFile();
                 } else {
-                    showNotice('Generating Anki flashcards...   ');
+                    showNotice('Generating Anki flashcards...');
+                }
+            }
+        });
+
+        // Add new command for directory
+        this.addCommand({
+            id: 'create-anki-cards-from-directory',
+            name: 'Create Anki cards from directory',
+            callback: async () => {
+                if (!this.isProcessingCurrentFile && !this.isProcessingDirectory) {
+                    await this.createAnkiCardsFromDirectory();
+                } else {
+                    showNotice('Generating Anki flashcards...');
                 }
             }
         });
@@ -60,127 +86,125 @@ export default class BlueStar extends Plugin {
         await this.saveData(this.settings);
     }
 
-    async createAnkiCardsFromFile() {
-        this.isProcessing = true;
-        this.toggleRibbonIcon('loading');
-
-        try {
-            if (this.settings.fileScope === 'currentFile') {
-                showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
-                await this.createAnkiCardsFromCurrentFile();
-            } else if (this.settings.fileScope === 'directory') {
-                showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
-                await this.createAnkiCardsFromDirectory();
-            }
-        } catch {
-            this.toggleRibbonIcon('done');
-            this.isProcessing = false;
-        }
-
-        this.toggleRibbonIcon('done');
-        this.isProcessing = false;
-    }
-
     async createAnkiCardsFromCurrentFile() {
-        const fileContent = await readCurrentFileContent(this.app);
-        const activeFile = this.app.workspace.getActiveFile();
-        if (!fileContent || !activeFile) return;
-
-        const fileConfig = Parser.extractConfig(fileContent) || {};
-        const config = { ...this.getDefaultConfig(), ...fileConfig };
-
-        let parser = new Parser(config.parser.toLowerCase(), config);
-        const parsedContent = parser.parse(fileContent, config);
-
-        if (parsedContent.length === 0) {
-            showNotice(`No content matched the pattern in file "${activeFile.name}".`);
-            return;
-        }
+        this.isProcessingCurrentFile = true;
+        this.toggleRibbonIcon('current-file', 'loading');
 
         try {
-            await createAnkiCards(
-                parsedContent, 
-                { ...config, updateExisting: config.update }, 
-                activeFile.path,
-                this.app
-            );
-        } catch (error) {
-            showNotice(`Error: ${error.message}\n\nWhen creating Anki cards from file "${activeFile.name}".`);
-        }
-    }
-
-    async createAnkiCardsFromDirectory() {
-        const folderPath = this.settings.directoryPath;
-        if (!folderPath || !folderPath.trim()) {
-            showNotice('Directory path must be specified.');
-            new InputPromptModal(this.app, 'Directory path must be specified.', () => {}).open();
-            return;
-        }
-
-        const folder = this.app.vault.getAbstractFileByPath(folderPath);
-        if (!(folder instanceof TFolder)) {
-            showNotice('Invalid directory path.');
-            new InputPromptModal(this.app, 'Invalid directory path.', () => {}).open();
-            return;
-        }
-
-        const files = this.getFilesFromFolder(folder);
-        const totalFiles = files.length;
-        let processedFiles = 0;
-        let skippedFiles = 0;
-
-        let includeTag = this.settings.includeFileTag.trim();
-        if (includeTag.startsWith('#')) {
-            includeTag = includeTag.slice(1);
-        }
-
-        let excludedTag = this.settings.excludeFileTag.trim();
-        if (excludedTag.startsWith('#')) {
-            excludedTag = excludedTag.slice(1);
-        }
-
-        for (const file of files) {
-            const fileContent = await this.app.vault.read(file);
-
-            const frontMatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
-            const tags = frontMatter?.tags || [];
-
-            if (includeTag && !tags.includes(includeTag)) {
-                continue;
-            }
-
-            if (excludedTag && tags.includes(excludedTag)) {
-                continue;
-            }
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
+            const fileContent = await readCurrentFileContent(this.app);
+            const activeFile = this.app.workspace.getActiveFile();
+            if (!fileContent || !activeFile) return;
 
             const fileConfig = Parser.extractConfig(fileContent) || {};
             const config = { ...this.getDefaultConfig(), ...fileConfig };
 
-            if (config.ignore) {
-                continue;
-            }
-
             let parser = new Parser(config.parser.toLowerCase(), config);
             const parsedContent = parser.parse(fileContent, config);
 
-            if (parsedContent.length > 0) {
-                try {
-                    await createAnkiCards(
-                        parsedContent, 
-                        { ...config, updateExisting: config.update }, 
-                        file.path,
-                        this.app
-                    );
-                    processedFiles++;
-                } catch (error) {
-                    showNotice(`Error creating Anki cards from file "${file.name}": ${error.message}`);
-                }
-            } else {
-                skippedFiles++;
+            if (parsedContent.length === 0) {
+                showNotice(`No content matched the pattern in file "${activeFile.name}".`);
+                return;
             }
-        }
 
-        showNotice(`Processing completed. Total files: ${totalFiles}, Processed files: ${processedFiles}, Skipped files: ${skippedFiles}.`);
+            try {
+                await createAnkiCards(
+                    parsedContent, 
+                    { ...config, updateExisting: config.update }, 
+                    activeFile.path,
+                    this.app
+                );
+            } catch (error) {
+                showNotice(`Error: ${error.message}\n\nWhen creating Anki cards from file "${activeFile.name}".`);
+            }
+        } finally {
+            this.toggleRibbonIcon('current-file', 'done');
+            this.isProcessingCurrentFile = false;
+        }
+    }
+
+    async createAnkiCardsFromDirectory() {
+        this.isProcessingDirectory = true;
+        this.toggleRibbonIcon('directory', 'loading');
+
+        try {
+            showNotice('Generating flashcards...\n\nPlease do not click repeatedly or execute the command multiple times.');
+            
+            const folderPath = this.settings.directoryPath;
+            if (!folderPath || !folderPath.trim()) {
+                showNotice('Directory path must be specified.');
+                new InputPromptModal(this.app, 'Directory path must be specified.', () => {}).open();
+                return;
+            }
+
+            const folder = this.app.vault.getAbstractFileByPath(folderPath);
+            if (!(folder instanceof TFolder)) {
+                showNotice('Invalid directory path.');
+                new InputPromptModal(this.app, 'Invalid directory path.', () => {}).open();
+                return;
+            }
+
+            const files = this.getFilesFromFolder(folder);
+            const totalFiles = files.length;
+            let processedFiles = 0;
+            let skippedFiles = 0;
+
+            let includeTag = this.settings.includeFileTag.trim();
+            if (includeTag.startsWith('#')) {
+                includeTag = includeTag.slice(1);
+            }
+
+            let excludedTag = this.settings.excludeFileTag.trim();
+            if (excludedTag.startsWith('#')) {
+                excludedTag = excludedTag.slice(1);
+            }
+
+            for (const file of files) {
+                const fileContent = await this.app.vault.read(file);
+
+                const frontMatter = this.app.metadataCache.getFileCache(file)?.frontmatter;
+                const tags = frontMatter?.tags || [];
+
+                if (includeTag && !tags.includes(includeTag)) {
+                    continue;
+                }
+
+                if (excludedTag && tags.includes(excludedTag)) {
+                    continue;
+                }
+
+                const fileConfig = Parser.extractConfig(fileContent) || {};
+                const config = { ...this.getDefaultConfig(), ...fileConfig };
+
+                if (config.ignore) {
+                    continue;
+                }
+
+                let parser = new Parser(config.parser.toLowerCase(), config);
+                const parsedContent = parser.parse(fileContent, config);
+
+                if (parsedContent.length > 0) {
+                    try {
+                        await createAnkiCards(
+                            parsedContent, 
+                            { ...config, updateExisting: config.update }, 
+                            file.path,
+                            this.app
+                        );
+                        processedFiles++;
+                    } catch (error) {
+                        showNotice(`Error creating Anki cards from file "${file.name}": ${error.message}`);
+                    }
+                } else {
+                    skippedFiles++;
+                }
+            }
+
+            showNotice(`Processing completed. Total files: ${totalFiles}, Processed files: ${processedFiles}, Skipped files: ${skippedFiles}.`);
+        } finally {
+            this.toggleRibbonIcon('directory', 'done');
+            this.isProcessingDirectory = false;
+        }
     }
 
     getFilesFromFolder(folder: TFolder): TFile[] {
@@ -215,11 +239,11 @@ export default class BlueStar extends Plugin {
         }
     }
 
-    private toggleRibbonIcon(state: 'loading' | 'done') {
-        if (state === 'loading') {
-            setIcon(this.ribbonIconEl, 'star-half');
+    private toggleRibbonIcon(type: 'current-file' | 'directory', state: 'loading' | 'done') {
+        if (type === 'current-file') {
+            setIcon(this.currentFileIconEl, state === 'loading' ? 'star-half' : 'star');
         } else {
-            setIcon(this.ribbonIconEl, 'star');
+            setIcon(this.directoryIconEl, state === 'loading' ? 'moon' : 'moon-star');
         }
     }
 }

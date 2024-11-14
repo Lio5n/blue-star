@@ -1,6 +1,6 @@
 {
 	"name": "blue-star",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "Generate Anki flashcards in multiple ways.",
 	"main": "main.js",
 	"scripts": {

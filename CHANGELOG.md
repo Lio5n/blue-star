@@ -134,3 +134,11 @@
 ### Added
 
 - Add another method for document-level configuration settings.
+
+## [1.2.3] - 2024-11-15
+
+### Changed
+
+- Two icons and two commands handle the current file and directory respectively.
+    - Create cards from current file using the star (⭐) icon or command
+    - Create cards from a specified directory using the moon-star (🌙) icon or command

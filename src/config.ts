@@ -8,8 +8,7 @@ export interface RegexPattern {
 export interface BlueStarSettings {
     updateExisting: boolean;
     allowSingleField: boolean;
-    htmlLineBreak: boolean,
-    fileScope: 'currentFile' | 'directory';
+    htmlLineBreak: boolean;
     directoryPath: string;
     includeFileTag: string;
     excludeFileTag: string;
@@ -36,7 +35,6 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
     updateExisting: false,
     allowSingleField: true,
     htmlLineBreak: false,
-    fileScope: 'currentFile',
     directoryPath: 'Anki',
     includeFileTag: '',
     excludeFileTag: '',

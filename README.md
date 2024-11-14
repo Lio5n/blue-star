@@ -4,11 +4,13 @@ Blue Star is an Obsidian plugin that simplifies the process of creating Anki fla
 
 ## Features
 
+* **Two Ways to Create Cards:** 
+  * Create cards from current file using the star (⭐) icon or command
+  * Create cards from a specified directory using the moon-star (🌙) icon or command
 * **Multiple Parsing Modes:** Choose from pre-defined modes based on headings, sections, or custom delimiters. Craft powerful flashcards using regular expressions for advanced control.
 * **Directory and Tag Filtering:** Generate flashcards from specific directories or files tagged with particular keywords, enabling focused learning.
-* **Granular Control:**  Decide whether to add new cards only or update existing ones in Anki. Configure default decks, models, and tags for seamless workflow integration.
+* **Granular Control:** Decide whether to add new cards only or update existing ones in Anki. Configure default decks, models, and tags for seamless workflow integration.
 * **Document-Level Settings:** Fine-tune card creation behavior within individual notes. Override default settings for ultimate flexibility.
-* **User-Friendly Interface:**  A dedicated ribbon icon and command palette command provide quick access to card generation.
 * **Intuitive Setup:** Clear instructions guide you through the initial AnkiConnect configuration.
 
 ## Installation
@@ -46,13 +48,23 @@ Blue Star requires the AnkiConnect plugin for communication with Anki.
 ### 2. Configure Blue Star
 
 * Access Blue Star's settings in Obsidian's plugin settings.
-* Configure your preferred parsing mode, default Anki settings, and other options.
+* Configure your preferred parsing mode, default Anki settings, and directory settings.
+* Set up directory path and optional file tags for batch processing.
 
 ### 3. Generate Flashcards
 
-1. Open a note or navigate to a directory containing the content you want to convert.
-2. Click the Blue Star icon in the ribbon or use the command `Blue Star: Create Anki cards`.
-3. Monitor the progress notifications in Obsidian's status bar.
+You have two ways to generate flashcards:
+
+1. **From Current File:**
+   * Click the star (⭐) icon in the ribbon
+   * Or use the command `Blue Star: Create Anki cards from current file`
+
+2. **From Directory:**
+   * Click the moon-star (🌙) icon in the ribbon
+   * Or use the command `Blue Star: Create Anki cards from directory`
+   * Make sure to configure the directory path in settings
+
+Monitor the progress notifications in Obsidian's status bar.
 
 ## Parsing Modes
 

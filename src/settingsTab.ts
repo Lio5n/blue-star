@@ -15,52 +15,37 @@ export class BlueStarSettingTab extends PluginSettingTab {
         containerEl.empty();
 
         new Setting(containerEl)
-            .setName('File scope')
-            .setDesc('Select the scope for generating Anki cards.')
-            .addDropdown(dropdown => dropdown
-                .addOption('currentFile', 'Current file')
-                .addOption('directory', 'Directory')
-                .setValue(this.plugin.settings.fileScope)
+            .setName('Directory path')
+            .setDesc('Specify the directory path to scan for files.')
+            .addText(text => text
+                .setPlaceholder('Anki')
+                .setValue(this.plugin.settings.directoryPath)
                 .onChange(async (value) => {
-                    this.plugin.settings.fileScope = value as 'currentFile' | 'directory';
+                    this.plugin.settings.directoryPath = value;
                     await this.plugin.saveSettings();
-                    this.display();
                 }));
 
-        if (this.plugin.settings.fileScope === 'directory') {
-            new Setting(containerEl)
-                .setName('Directory path')
-                .setDesc('Specify the directory path to scan for files.')
-                .addText(text => text
-                    .setPlaceholder('Anki')
-                    .setValue(this.plugin.settings.directoryPath)
-                    .onChange(async (value) => {
-                        this.plugin.settings.directoryPath = value;
-                        await this.plugin.saveSettings();
-                    }));
+        new Setting(containerEl)
+            .setName('Include file tag')
+            .setDesc('Specify the tag for files that need to be included in the specified directory.')
+            .addText(text => text
+                .setPlaceholder('anki')
+                .setValue(this.plugin.settings.includeFileTag)
+                .onChange(async (value) => {
+                    this.plugin.settings.includeFileTag = value;
+                    await this.plugin.saveSettings();
+                }));
 
-            new Setting(containerEl)
-                .setName('Include file tag')
-                .setDesc('Specify the tag for files that need to be included in the specified directory.')
-                .addText(text => text
-                    .setPlaceholder('anki')
-                    .setValue(this.plugin.settings.includeFileTag)
-                    .onChange(async (value) => {
-                        this.plugin.settings.includeFileTag = value;
-                        await this.plugin.saveSettings();
-                    }));
-
-            new Setting(containerEl)
-                .setName('Exclude file tag')
-                .setDesc('Specify the tag for files that need to be excluded in the specified directory.')
-                .addText(text => text
-                    .setPlaceholder('anki-ignore')
-                    .setValue(this.plugin.settings.excludeFileTag)
-                    .onChange(async (value) => {
-                        this.plugin.settings.excludeFileTag = value;
-                        await this.plugin.saveSettings();
-                    }));
-        }
+        new Setting(containerEl)
+            .setName('Exclude file tag')
+            .setDesc('Specify the tag for files that need to be excluded in the specified directory.')
+            .addText(text => text
+                .setPlaceholder('anki-ignore')
+                .setValue(this.plugin.settings.excludeFileTag)
+                .onChange(async (value) => {
+                    this.plugin.settings.excludeFileTag = value;
+                    await this.plugin.saveSettings();
+                }));
 
         new Setting(containerEl)
             .setName('Update existing cards')
