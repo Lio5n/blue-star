@@ -190,6 +190,16 @@ tag: YourTagName
 parser: section-subsection 
 ```
 ``````
+or
+``````
+```
+anki
+deck: YourDeckName
+model: YourModelName
+tag: YourTagName
+parser: section-subsection 
+```
+``````
 
 **Available options:**
 

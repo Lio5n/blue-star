@@ -69,7 +69,13 @@ function getAttachmentFolderPath(app: any, currentFileDir: string): string {
 function removeAnkiCodeBlocks(content: string): string {
     // Match code blocks that start with ```anki and end with ```
     const ankiCodeBlockRegex = /^```anki[\s\S]*?^```\s*$/gm;
-    return content.replace(ankiCodeBlockRegex, '');
+    // Match code blocks that start with ``` and anki in next line and end with ```
+    const multiLineAnkiCodeBlockRegex = /^```\s*\nanki[\s\S]*?^```\s*$/gm;
+    
+    // Remove both types of anki code blocks
+    return content
+        .replace(ankiCodeBlockRegex, '')
+        .replace(multiLineAnkiCodeBlockRegex, '');
 }
 
 // Add function to process markdown content and handle images

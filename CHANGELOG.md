@@ -128,3 +128,9 @@
 ### Added
 
 - Remove the document-level configuration blocks when generating Anki cards.
+
+## [1.2.2] - 2024-11-14
+
+### Added
+
+- Add another method for document-level configuration settings.

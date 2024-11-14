@@ -88,7 +88,10 @@ export class Parser {
     }
 
     static extractConfig(content: string): Partial<AnkiConfig> | null {
-        const configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
+        let configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
+        if (!configMatch)
+            configMatch = content.match(/```\s*\nanki\s*([\s\S]*?)\s+```/);
+
         if (!configMatch) return null;
 
         const configLines = configMatch[1].split('\n').map(line => line.trim());
