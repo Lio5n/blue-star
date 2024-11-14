@@ -122,3 +122,9 @@
 ### Added
 
 - Support generating Anki cards with images.
+
+## [1.2.1] - 2024-11-14
+
+### Added
+
+- Remove the document-level configuration blocks when generating Anki cards.

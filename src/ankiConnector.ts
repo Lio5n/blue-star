@@ -65,8 +65,18 @@ function getAttachmentFolderPath(app: any, currentFileDir: string): string {
     return '';
 }
 
+// Add function to remove anki code blocks
+function removeAnkiCodeBlocks(content: string): string {
+    // Match code blocks that start with ```anki and end with ```
+    const ankiCodeBlockRegex = /^```anki[\s\S]*?^```\s*$/gm;
+    return content.replace(ankiCodeBlockRegex, '');
+}
+
 // Add function to process markdown content and handle images
 async function processContent(app: any, content: string, filePath: string, settings: BlueStarSettings): Promise<string> {
+    // First remove anki code blocks
+    let processedContent = removeAnkiCodeBlocks(content);
+    
     // Get the directory of current file
     const currentFileDir = filePath.substring(0, filePath.lastIndexOf('/'));
     
@@ -75,7 +85,6 @@ async function processContent(app: any, content: string, filePath: string, setti
     
     // Match both standard markdown image syntax and Obsidian internal link syntax
     const imageRegex = /!\[(.*?)\]\((.*?)(?:\s+"(.*?)")?\)|!\[\[(.*?)(?:\s*\|\s*(\d+)(?:\s*x\s*(\d+))?)?\]\]/g;
-    let processedContent = content;
     let match;
 
     while ((match = imageRegex.exec(content)) !== null) {
