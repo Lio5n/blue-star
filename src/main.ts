@@ -90,10 +90,7 @@ export default class BlueStar extends Plugin {
         const config = { ...this.getDefaultConfig(), ...fileConfig };
 
         let parser = new Parser(config.parser.toLowerCase(), config);
-
         const parsedContent = parser.parse(fileContent, config);
-
-        // console.log('Parsed content:', parsedContent);
 
         if (parsedContent.length === 0) {
             showNotice(`No content matched the pattern in file "${activeFile.name}".`);
@@ -101,7 +98,12 @@ export default class BlueStar extends Plugin {
         }
 
         try {
-            await createAnkiCards(parsedContent, { ...config, updateExisting: config.update }, activeFile.name);
+            await createAnkiCards(
+                parsedContent, 
+                { ...config, updateExisting: config.update }, 
+                activeFile.path,
+                this.app
+            );
         } catch (error) {
             showNotice(`Error: ${error.message}\n\nWhen creating Anki cards from file "${activeFile.name}".`);
         }
@@ -163,7 +165,12 @@ export default class BlueStar extends Plugin {
 
             if (parsedContent.length > 0) {
                 try {
-                    await createAnkiCards(parsedContent, { ...config, updateExisting: config.update }, file.name);
+                    await createAnkiCards(
+                        parsedContent, 
+                        { ...config, updateExisting: config.update }, 
+                        file.path,
+                        this.app
+                    );
                     processedFiles++;
                 } catch (error) {
                     showNotice(`Error creating Anki cards from file "${file.name}": ${error.message}`);
@@ -204,6 +211,7 @@ export default class BlueStar extends Plugin {
             separator: this.settings.fieldSeparator,
             end: this.settings.customDelimiters.cardEnd,
             ignore: false,
+            imageMaxWidth: this.settings.imageMaxWidth,
         }
     }
 

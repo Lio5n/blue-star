@@ -91,7 +91,18 @@ export class BlueStarSettingTab extends PluginSettingTab {
                     this.plugin.settings.htmlLineBreak = value;
                     await this.plugin.saveSettings();
                 }));
-    
+
+        new Setting(containerEl)
+            .setName('Image max width')
+            .setDesc('Maximum width of images in Anki cards, expressed as a percentage without using the % symbol.')
+            .addText(text => text
+                .setPlaceholder('100')
+                .setValue(this.plugin.settings.imageMaxWidth.toString())
+                .onChange(async (value) => {
+                    this.plugin.settings.imageMaxWidth = parseInt(value);
+                    await this.plugin.saveSettings();
+                }));
+
         new Setting(containerEl)
             .setName('Anki deck')
             .setDesc('The default deck to add cards to.')

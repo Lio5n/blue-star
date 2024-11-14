@@ -29,6 +29,7 @@ export interface BlueStarSettings {
         fieldSeparator: string;
     }
     fieldSeparator: string;
+    imageMaxWidth: number;
 }
 
 export const DEFAULT_SETTINGS: BlueStarSettings = {
@@ -108,5 +109,6 @@ export const DEFAULT_SETTINGS: BlueStarSettings = {
     signleDelimiter: {
         fieldSeparator: '<!-- field separator -->',
     },
-    fieldSeparator: '<!-- field separator -->'
+    fieldSeparator: '<!-- field separator -->',
+    imageMaxWidth: 100
 }

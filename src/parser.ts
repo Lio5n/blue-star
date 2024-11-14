@@ -28,6 +28,7 @@ export interface AnkiConfig {
     separator: string;
     end: string;
     ignore: boolean;
+    imageMaxWidth?: number;
 }
 
 export class Parser {
@@ -132,6 +133,7 @@ export class Parser {
                 if (lowerKey === 'field-separator') config.separator = value;
                 if (lowerKey === 'card-end') config.end = value;
                 if (lowerKey === 'ignore') config.ignore = this.parseBoolean(value);
+                if (lowerKey === 'image-max-width') config.imageMaxWidth = parseInt(value, 10);
             }
         }
 
@@ -143,87 +145,6 @@ export class Parser {
         return ['true', '1', 'yes', 'y'].includes(normalizedValue);
     }
 
-    /*
-    static extractConfig(content: string): Partial<AnkiConfig> | null {
-        const configMatch = content.match(/```anki\s+([\s\S]*?)\s+```/);
-        if (!configMatch) return null;
-
-        try {
-            const rawConfig = parseYaml(configMatch[1]) as Record<string, any>;
-            const config: Partial<AnkiConfig> = {};
-
-            const keyMap: Record<string, keyof AnkiConfig> = {
-                'deck': 'deck',
-                'anki-deck': 'deck',
-                'model': 'model',
-                'anki-model': 'model',
-                'note-type': 'model',
-                'anki-note-type': 'model',
-                'tag': 'tag',
-                'anki-tag': 'tag',
-                'card-tag': 'tag',
-                'anki-card-tag': 'tag',
-                'parser': 'parser',
-                'parser-mode': 'parser',
-                'match': 'parser',
-                'match-mode': 'parser',
-                'regex': 'regex',
-                'flags': 'flags',
-                'regex-flags': 'flags',
-                'flag': 'flags',
-                'regex-flag': 'flags',
-                'heading': 'heading',
-                'heading-level': 'heading',
-                'update': 'update',
-                'upsert': 'update',
-                'single': 'single',
-                'single-field': 'single',
-                'html': 'html',
-                'html-break': 'html',
-                'html-line-break': 'html',
-                'card-start': 'start',
-                'field': 'separator',
-                'field-split': 'separator',
-                'field-separator': 'separator',
-                'card-end': 'end',
-                'ignore': 'ignore'
-            };
-
-            for (const [key, value] of Object.entries(rawConfig)) {
-                const lowerKey = key.toLowerCase();
-                const mappedKey = keyMap[lowerKey];
-
-                if (mappedKey) {
-                    if (mappedKey === 'heading') {
-                        config[mappedKey] = parseInt(value, 10);
-                    } else if (['update', 'single', 'html', 'ignore'].includes(mappedKey)) {
-                        if (typeof value === 'string') {
-                            config[mappedKey] = this.parseBoolean(value) as any;
-                        } else {
-                            config[mappedKey] = Boolean(value) as any;
-                        }
-                    } else {
-                        config[mappedKey] = value;
-                    }
-                }
-            }
-
-            return config;
-        } catch (error) {
-            showNotice('Document-level configuration error.');
-            console.error('Failed to parse YAML config:', error);
-            throw(error);
-        }
-    }
-
-    private static parseBoolean(value: string): boolean {
-        if (typeof value !== 'string') {
-            throw new TypeError('Expected a string for parseBoolean');
-        }
-        const normalizedValue = value.trim().toLowerCase();
-        return ['true', '1', 'yes', 'y'].includes(normalizedValue);
-    }
-    */
 }
 
 export function lineTypeChecker(line: String) {

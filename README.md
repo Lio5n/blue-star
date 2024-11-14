@@ -207,6 +207,7 @@ parser: section-subsection
 * `single` / `single-field` (Values: `true` or `false`)
 * `html` / `html-break` / `html-line-break` (Values: `true` or `false`)
 * `ignore` (Values: `true` or `false`)
+* `image-max-width`
 
 ## Deck Tip
 

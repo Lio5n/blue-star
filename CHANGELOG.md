@@ -112,3 +112,13 @@
 ### Changed
 
 - Remove the restriction on scanning the entire vault.
+
+## [1.2.0] - 2024-11-14
+
+### Fixed
+
+- Fix the issue preventing skipping of duplicate cards caused by the AnkiConnect upgrade.
+
+### Added
+
+- Support generating Anki cards with images.
