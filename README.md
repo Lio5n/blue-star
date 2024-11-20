@@ -218,7 +218,7 @@ parser: section-subsection
 * `deck` / `anki-deck`
 * `model` / `anki-model` / `note-type` / `anki-note-type`
 * `tag` / `anki-tag` / `card-tag` / `anki-card-tag`
-* `parser` / `parser-mode` / `match` / `match-mode` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-subparagraph`, `regex`, `custom-delimiter`)
+* `parser` / `parser-mode` / `match` / `match-mode` (Options: `section-subsection`, `heading-paragraph`, `multi-subsection`, `multi-subparagraph`, `regex`, `custom-delimiter`, `single-delimiter`)
 * `heading` / `heading-level`
 * `regex`
 * `flags` / `regex-flag` / `flag` / `regex-flags`
@@ -229,7 +229,6 @@ parser: section-subsection
 * `single` / `single-field` (Values: `true` or `false`)
 * `html` / `html-break` / `html-line-break` (Values: `true` or `false`)
 * `ignore` (Values: `true` or `false`)
-* `image-max-width`
 
 ## Deck Tip
 

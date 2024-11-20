@@ -143,7 +143,7 @@ async function processContent(app: any, content: string, filePath: string, setti
                 if (base64Data) {
                     processedContent = processedContent.replace(
                         fullMatch,
-                        `<img src="${base64Data}" style="max-width: ${settings.imageMaxWidth}%;">`
+                        `<img src="${base64Data}">`
                     );
                 }
             } catch (error) {

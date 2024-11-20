@@ -142,3 +142,9 @@
 - Two icons and two commands handle the current file and directory respectively.
     - Create cards from current file using the star (⭐) icon or command
     - Create cards from a specified directory using the moon-star (🌙) icon or command
+
+## [1.2.4] - 2024-11-20
+
+### Deleted
+
+- Removed the settings related to the max-width of images.

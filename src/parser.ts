@@ -28,7 +28,6 @@ export interface AnkiConfig {
     separator: string;
     end: string;
     ignore: boolean;
-    imageMaxWidth?: number;
 }
 
 export class Parser {
@@ -136,7 +135,6 @@ export class Parser {
                 if (lowerKey === 'field-separator') config.separator = value;
                 if (lowerKey === 'card-end') config.end = value;
                 if (lowerKey === 'ignore') config.ignore = this.parseBoolean(value);
-                if (lowerKey === 'image-max-width') config.imageMaxWidth = parseInt(value, 10);
             }
         }
 

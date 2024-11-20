@@ -235,7 +235,6 @@ export default class BlueStar extends Plugin {
             separator: this.settings.fieldSeparator,
             end: this.settings.customDelimiters.cardEnd,
             ignore: false,
-            imageMaxWidth: this.settings.imageMaxWidth,
         }
     }
 
