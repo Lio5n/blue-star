@@ -148,3 +148,9 @@
 ### Deleted
 
 - Removed the settings related to the max-width of images.
+
+## [1.2.5] - 2024-12-05
+
+### Fixed
+
+- Fixed some bugs.

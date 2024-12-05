@@ -34,7 +34,7 @@ export class MultiSubparagraphParserStrategy implements ParserStrategy {
             const trimmedLine = line.trimEnd();
             const lineType = lineTypeChecker(line.trim())
 
-            if (lineType.type=='heading') {
+            if (lineType.type=='heading' && !inCodeBlock) {
                 let headingLevel = lineType.headingLevel ? lineType.headingLevel : 0;
 
                 if(headingLevel<=this.headingLevel) {
